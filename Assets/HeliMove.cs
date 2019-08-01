@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HeliMove : MonoBehaviour
 {
-    public GameObject moveHere;
+    GameObject moveHere;
     public GameObject testMovePoint;
     public GameObject arMovePoint;
 
