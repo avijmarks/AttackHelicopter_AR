@@ -192,7 +192,7 @@ Transform:
   m_GameObject: {fileID: 215164096}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 35, y: 35, z: 35}
+  m_LocalScale: {x: 50, y: 50, z: 50}
   m_Children:
   - {fileID: 910530450}
   m_Father: {fileID: 0}
@@ -531,6 +531,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   testMovePoint: {fileID: 1582427320}
   arMovePoint: {fileID: 1088265245}
+  arCam: {fileID: 910530445}
+  rollSpeed: 0.2
   useTestMovePoint: 0
 --- !u!1 &1053227604
 GameObject:
