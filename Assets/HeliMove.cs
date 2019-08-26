@@ -41,21 +41,25 @@ public class HeliMove : MonoBehaviour
     }
 
     void HorizontalMove (){
+        //smoothdamp function for purely horizontal movement (lower speed value than vertical speed)
         Vector2 thisHorizPos = new Vector2(transform.position.x, transform.position.z);
         Vector2 targetHorizPos = new Vector2(moveHere.transform.position.x, moveHere.transform.position.z);
-        var newHorizPos = Vector2.SmoothDamp(thisHorizPos, targetHorizPos, ref horizontalRefVel, .5f);
+        var newHorizPos = Vector2.SmoothDamp(thisHorizPos, targetHorizPos, ref horizontalRefVel, .7f);
         Vector3 newVector3Pos = new Vector3(newHorizPos.x, transform.position.y, newHorizPos.y);
         transform.position = newVector3Pos;
     }
     void VerticalMove(){
+        //moves purely on the y axis -- has seperate SmoothDamp function (speed should be higher than horizontal speed)
         var thisVertPos = transform.position.y;
         var targetVertPos = moveHere.transform.position.y;
-        var newVertPos = Mathf.SmoothDamp(thisVertPos, targetVertPos, ref vertRefVel, .7f);
+        var newVertPos = Mathf.SmoothDamp(thisVertPos, targetVertPos, ref vertRefVel, .8f);
         Vector3 newVector3Pos = new Vector3(transform.position.x, newVertPos, transform.position.z);
         transform.position = newVector3Pos;
     }
 
     void MoveRotation(){
+        //creates purely y rotation eulerangle vector3 sets for the rotation of the helicopter and rotation of the camera
+        //then slerps using quaternion versions of these angle sets 
         Quaternion thisRot = Quaternion.Euler(0f, transform.eulerAngles.y, 0f);
         Quaternion camRot = Quaternion.Euler(0f, arCam.transform.eulerAngles.y, 0f);
         transform.rotation = Quaternion.Slerp(thisRot, camRot, .05f);
@@ -65,7 +69,6 @@ public class HeliMove : MonoBehaviour
     void RollRotation(){
         //giving new variable so we can mess with it variably every frame based on how far target Pose is 
         float rollSlerpValue = rollSpeed;
-
         //how close the target position has to be for the roll amount to start scaling
         float rollCutoff = 2f;
 
@@ -73,10 +76,11 @@ public class HeliMove : MonoBehaviour
         //problems with vertical movement
         var flatTargetPos = new Vector3(moveHere.transform.position.x, 0f, moveHere.transform.position.z);
         var flatThisPos = new Vector3(this.transform.position.x, 0f, this.transform.position.z);
-        var distance = Vector3.Distance(flatTargetPos, flatThisPos);
+        var distanceToTargetPos = Vector3.Distance(flatTargetPos, flatThisPos);
+
         //calculating whether or not roll needs to be scaled/scaling if necessary
-        if (distance < rollCutoff){
-            rollSlerpValue = rollSlerpValue * (distance/rollCutoff);
+        if (distanceToTargetPos < rollCutoff){
+            rollSlerpValue = rollSlerpValue * (distanceToTargetPos/rollCutoff);
         }
 
         var direction = (moveHere.transform.position - this.transform.position).normalized;
