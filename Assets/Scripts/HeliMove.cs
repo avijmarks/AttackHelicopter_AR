@@ -13,7 +13,16 @@ public class HeliMove : MonoBehaviour
     Vector2 horizontalRefVel = Vector3.zero;
     float vertRefVel = 0f;
 
+    //time it takes to get to position horizontally -- should be lower than vertical speed
+    public float horizontalSpeed = 70f;
+    //time it takes to get to postion vertically -- should be higher than horizontal speed
+    public float verticalSpeed = 80f;
+    //amount of angle towards the point we wish to roll towards
     public float rollSpeed = .2f;
+    //distance cutoff within which the roll amount will be a percentage of the standard rolltowardspoint angle (damps rolling when close)
+    public float rollCutoff = 2; 
+    //rotation speed around y axis
+    public float rotationSpeed = .05f;
 
     public bool useTestMovePoint;
 
@@ -44,7 +53,7 @@ public class HeliMove : MonoBehaviour
         //smoothdamp function for purely horizontal movement (lower speed value than vertical speed)
         Vector2 thisHorizPos = new Vector2(transform.position.x, transform.position.z);
         Vector2 targetHorizPos = new Vector2(moveHere.transform.position.x, moveHere.transform.position.z);
-        var newHorizPos = Vector2.SmoothDamp(thisHorizPos, targetHorizPos, ref horizontalRefVel, .7f);
+        var newHorizPos = Vector2.SmoothDamp(thisHorizPos, targetHorizPos, ref horizontalRefVel, horizontalSpeed * Time.deltaTime);
         Vector3 newVector3Pos = new Vector3(newHorizPos.x, transform.position.y, newHorizPos.y);
         transform.position = newVector3Pos;
     }
@@ -52,7 +61,7 @@ public class HeliMove : MonoBehaviour
         //moves purely on the y axis -- has seperate SmoothDamp function (speed should be higher than horizontal speed)
         var thisVertPos = transform.position.y;
         var targetVertPos = moveHere.transform.position.y;
-        var newVertPos = Mathf.SmoothDamp(thisVertPos, targetVertPos, ref vertRefVel, .8f);
+        var newVertPos = Mathf.SmoothDamp(thisVertPos, targetVertPos, ref vertRefVel, verticalSpeed * Time.deltaTime);
         Vector3 newVector3Pos = new Vector3(transform.position.x, newVertPos, transform.position.z);
         transform.position = newVector3Pos;
     }
@@ -62,7 +71,7 @@ public class HeliMove : MonoBehaviour
         //then slerps using quaternion versions of these angle sets 
         Quaternion thisRot = Quaternion.Euler(0f, transform.eulerAngles.y, 0f);
         Quaternion camRot = Quaternion.Euler(0f, arCam.transform.eulerAngles.y, 0f);
-        transform.rotation = Quaternion.Slerp(thisRot, camRot, .05f);
+        transform.rotation = Quaternion.Slerp(thisRot, camRot, rotationSpeed);
         
     }
 
@@ -70,7 +79,6 @@ public class HeliMove : MonoBehaviour
         //giving new variable so we can mess with it variably every frame based on how far target Pose is 
         float rollSlerpValue = rollSpeed;
         //how close the target position has to be for the roll amount to start scaling
-        float rollCutoff = 2f;
 
         //we use vector3 positions for calculating distance with no y value because otherwise this distance scaling method of calculating roll causes 
         //problems with vertical movement
