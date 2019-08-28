@@ -8,8 +8,32 @@ public class EnvironmentManager : MonoBehaviour
     public ARRaycastManager aRRaycastManager;
     // Start is called before the first frame update
     public PlaneEnvironmentObject testPrefab;
-    public List<PlaneEnvironmentObject> planeEnvironmentObjects = new List<PlaneEnvironmentObject>();
+    List<PlaneEnvironmentObject> planeEnvironmentObjects = new List<PlaneEnvironmentObject>();
     public ARPlaneManager planeManager;
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    [System.Serializable]
+    public class Rocks {
+        public PlaneEnvironmentObject rockPrefab;
+        public float rockPrefabSpacing = 1f;
+    }
+
+    [System.Serializable]
+    public class BushesAndTrees{
+        public PlaneEnvironmentObject bushTreePrefab;
+        public float bushTreeSpacing = .75f;
+    }
+
+    [System.Serializable]
+    public class Grasses {
+        public PlaneEnvironmentObject grassPrefab;
+        public float grassSpacing = .05f;
+    }
+
+    public List<Rocks> rocks = new List<Rocks>();
+    public List<BushesAndTrees> treesAndBushes = new List<BushesAndTrees>();
+    public List<Grasses> grass = new List<Grasses>();
     
    
     void Update()
@@ -35,7 +59,7 @@ public class EnvironmentManager : MonoBehaviour
     }
 
     void TryCreatePlaneEnvironment (){
-        Debug.Log("trying to create environment");
+        //spawns around where user is looking, if they are looking at a plane
         Vector3 initialPosition;
         bool DidInitialRaycastHit = TryGetInitialRaycast(out initialPosition);
         if (!DidInitialRaycastHit){
@@ -57,11 +81,10 @@ public class EnvironmentManager : MonoBehaviour
                     if (aRRaycastManager.Raycast(testRay, hits, UnityEngine.XR.ARSubsystems.TrackableType.PlaneWithinPolygon)){
                         //second population check using testposition goes here
                         //spawning perlin and typeofobject functions go here
-                        var instanceOfPlaneObject = Instantiate(testPrefab, hits[0].pose.position, Quaternion.identity);
-                        planeEnvironmentObjects.Add(instanceOfPlaneObject); //adding to list of PlaneEnvironmentObjects
-                        instanceOfPlaneObject.planeID = hits[0].trackableId; //assigning ID of plane to variable on instance of PlaneEnvironmentObject
-                        Debug.Log(instanceOfPlaneObject.planeID.ToString());
                         
+                        var instanceOfPlaneObject = Instantiate(ChoosePlaneObjectToSpawn(), hits[0].pose.position, Quaternion.identity);
+                        planeEnvironmentObjects.Add(instanceOfPlaneObject); //adding to list of PlaneEnvironmentObjects
+                        instanceOfPlaneObject.planeID = hits[0].trackableId; //assigning ID of plane to variable on instance of PlaneEnvironmentObject                    
                     }
                 }
             }
@@ -83,6 +106,22 @@ public class EnvironmentManager : MonoBehaviour
                 planeEnvironmentObjects.Remove(item);
             }
             
+        }
+    }
+
+    PlaneEnvironmentObject ChoosePlaneObjectToSpawn (){
+        float typeValueSelector = Random.Range(0f, 1f);
+        
+        if (typeValueSelector < .15f){
+            int prefab = Random.Range(0, rocks.Count);
+            return rocks[prefab].rockPrefab;
+        } else if (typeValueSelector < .35f){
+            int prefab = Random.Range(0, treesAndBushes.Count);
+            return treesAndBushes[prefab].bushTreePrefab;
+        } else {
+            //change 1f ^ to .6f once people buildings added 
+            int prefab = Random.Range(0, grass.Count);
+            return grass[prefab].grassPrefab;
         }
     }
 }

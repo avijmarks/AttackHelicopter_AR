@@ -1669,8 +1669,94 @@ MonoBehaviour:
   aRRaycastManager: {fileID: 215164097}
   testPrefab: {fileID: 248804289417187456, guid: 5dc7a216f80a8449ab7453d2144795aa,
     type: 3}
-  objectsOnPlanes: []
   planeManager: {fileID: 215164098}
+  rocks:
+  - rockPrefab: {fileID: 3454826755337267374, guid: 0b0d840c6997543429186b7c31e943f8,
+      type: 3}
+    rockPrefabSpacing: 1
+  - rockPrefab: {fileID: 8426245768688589870, guid: 1dec875bd855d4ec783f783e70bf5ac5,
+      type: 3}
+    rockPrefabSpacing: 1
+  - rockPrefab: {fileID: 8410712357125979836, guid: 4cfc7a008f39646cf8c575bbcfd8e99b,
+      type: 3}
+    rockPrefabSpacing: 1
+  - rockPrefab: {fileID: 2090635143726459623, guid: b2155954b1de349a5bd1138778f7715a,
+      type: 3}
+    rockPrefabSpacing: 1
+  - rockPrefab: {fileID: 453105391199725974, guid: 004551760aed8413b831ae52d976bd29,
+      type: 3}
+    rockPrefabSpacing: 1
+  treesAndBushes:
+  - bushTreePrefab: {fileID: 2409677684843006319, guid: 3e3a496fac1e44b7ba8b3a9dbd0a55f5,
+      type: 3}
+    bushTreeSpacing: 0.75
+  - bushTreePrefab: {fileID: 2190452871727367307, guid: 2013f37d038714444bb537f07b7c1703,
+      type: 3}
+    bushTreeSpacing: 0.75
+  - bushTreePrefab: {fileID: 7777258070133787188, guid: d93305ebea3274ae294b5fbc93ba3899,
+      type: 3}
+    bushTreeSpacing: 0.75
+  - bushTreePrefab: {fileID: 7846550682975464256, guid: aaaf3d29b9e77461192dd3c5aaaa7cca,
+      type: 3}
+    bushTreeSpacing: 0.75
+  - bushTreePrefab: {fileID: 8644435934436868802, guid: 43766b6ffc1f5402f90cc8c8124c93aa,
+      type: 3}
+    bushTreeSpacing: 0.75
+  - bushTreePrefab: {fileID: 5924142641982426855, guid: ebaa8d59ca51f4461a9a20284253d8ba,
+      type: 3}
+    bushTreeSpacing: 0.75
+  - bushTreePrefab: {fileID: 3775017340166455965, guid: e31d5d654a8b54c168974f2e737a8941,
+      type: 3}
+    bushTreeSpacing: 0.75
+  - bushTreePrefab: {fileID: 593472726485707455, guid: 446a7e50fa17d4b1180536e550215efa,
+      type: 3}
+    bushTreeSpacing: 0.75
+  - bushTreePrefab: {fileID: 991991150852421451, guid: c509dc3a370ec44eba9f41e20067e334,
+      type: 3}
+    bushTreeSpacing: 0.75
+  - bushTreePrefab: {fileID: 3590886660514440561, guid: e021a923310fd4f87bea2e2cd1b0639b,
+      type: 3}
+    bushTreeSpacing: 0.75
+  - bushTreePrefab: {fileID: 9060538077525500654, guid: 0d158c8709e084ed1ad0177db9ece943,
+      type: 3}
+    bushTreeSpacing: 0.75
+  - bushTreePrefab: {fileID: 5136406594346179751, guid: 35ad482d40fb5473e96e50838ca01837,
+      type: 3}
+    bushTreeSpacing: 0.75
+  - bushTreePrefab: {fileID: 5934869405259727459, guid: 9768eb99797894b93bfb997858c8dfbf,
+      type: 3}
+    bushTreeSpacing: 0.75
+  - bushTreePrefab: {fileID: 7510108749061817847, guid: 7f4d831d429c94fbf92b570a6c558c8e,
+      type: 3}
+    bushTreeSpacing: 0.75
+  - bushTreePrefab: {fileID: 1979085659231368886, guid: 078b43af812b34f10a40bbba2c95442d,
+      type: 3}
+    bushTreeSpacing: 0.75
+  - bushTreePrefab: {fileID: 6069403726280030003, guid: dad8a186073f44024b8ebee653d8c5ac,
+      type: 3}
+    bushTreeSpacing: 0.75
+  grass:
+  - grassPrefab: {fileID: 8280974056309184590, guid: 1c2fecdfd94784649b7a997a05f88e92,
+      type: 3}
+    grassSpacing: 0
+  - grassPrefab: {fileID: 7910195536201409682, guid: f4b9ccd2510f44a039290d98ca5283c9,
+      type: 3}
+    grassSpacing: 0
+  - grassPrefab: {fileID: 4718220895066680366, guid: 10bf2957ccb78472681a1b236b1826ee,
+      type: 3}
+    grassSpacing: 0
+  - grassPrefab: {fileID: 5226855632081193457, guid: 54f2941ad5e1e4a8d82ba2b99dd558af,
+      type: 3}
+    grassSpacing: 0
+  - grassPrefab: {fileID: 5831331629661931007, guid: 4751a7b8da3c44e49862682c3d7a7e26,
+      type: 3}
+    grassSpacing: 0
+  - grassPrefab: {fileID: 5899697289057913419, guid: e62a99f4a1d5341d08f4ac98a9fb7d54,
+      type: 3}
+    grassSpacing: 0
+  - grassPrefab: {fileID: 2392145968069457871, guid: 9bd5d259b89f6408084e51d4c7a2c1aa,
+      type: 3}
+    grassSpacing: 0
 --- !u!1 &913368454
 GameObject:
   m_ObjectHideFlags: 0
