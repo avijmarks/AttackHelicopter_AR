@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
-public class EnvironmentManager : MonoBehaviour
+public class EnvironmentSpawner : MonoBehaviour
 {
     public ARRaycastManager aRRaycastManager;
     // Start is called before the first frame update
@@ -13,33 +13,15 @@ public class EnvironmentManager : MonoBehaviour
 
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    [System.Serializable]
-    public class Rocks {
-        public PlaneEnvironmentObject rockPrefab;
-        public float rockPrefabSpacing = 1f;
-    }
-
-    [System.Serializable]
-    public class BushesAndTrees{
-        public PlaneEnvironmentObject bushTreePrefab;
-        public float bushTreeSpacing = .75f;
-    }
-
-    [System.Serializable]
-    public class Grasses {
-        public PlaneEnvironmentObject grassPrefab;
-        public float grassSpacing = .05f;
-    }
-
-    public List<Rocks> rocks = new List<Rocks>();
-    public List<BushesAndTrees> treesAndBushes = new List<BushesAndTrees>();
-    public List<Grasses> grass = new List<Grasses>();
+    public PlaneEnvironmentObject[] rockTypes;
+    public PlaneEnvironmentObject[] treeTypes;
+    public Grass[] grassTypes;
     
    
     void Update()
     {
         TryCreatePlaneEnvironment();
-        UpdatePlaneObjects();
+        //UpdatePlaneObjects();
     }
 
     bool TryGetInitialRaycast (out Vector3 initialPosition) {
@@ -82,10 +64,11 @@ public class EnvironmentManager : MonoBehaviour
                         //second population check using testposition goes here
                         //spawning perlin and typeofobject functions go here
                         
-                        var instanceOfPlaneObject = Instantiate(ChoosePlaneObjectToSpawn(), hits[0].pose.position, Quaternion.identity);
-                        planeEnvironmentObjects.Add(instanceOfPlaneObject); //adding to list of PlaneEnvironmentObjects
-                        instanceOfPlaneObject.planeID = hits[0].trackableId; //assigning ID of plane to variable on instance of PlaneEnvironmentObject                    
-                    }
+                        // var instanceOfPlaneObject = Instantiate(ChoosePlaneObjectToSpawn(), hits[0].pose.position, Quaternion.identity);
+                        // planeEnvironmentObjects.Add(instanceOfPlaneObject); //adding to list of PlaneEnvironmentObjects
+                        // instanceOfPlaneObject.planeID = hits[0].trackableId; //assigning ID of plane to variable on instance of PlaneEnvironmentObject   
+                        ChoosePlaneObjectToSpawn(hits[0].pose.position, hits[0].trackableId);                 
+                    }   
                 }
             }
         }
@@ -93,35 +76,41 @@ public class EnvironmentManager : MonoBehaviour
         
     }
 
-    void UpdatePlaneObjects(){
-        //fixes object heights as planes move (LOL)
-        //this currently only fixes height every time it is called -- should eventually manage object removal/plane removal as well
-        foreach (PlaneEnvironmentObject item in planeEnvironmentObjects){
-            ARPlane plane;
-            if (planeManager.trackables.TryGetTrackable(item.planeID, out plane)){
-                var newHeight = new Vector3(item.gameObject.transform.position.x, plane.transform.position.y, item.gameObject.transform.position.z);
-                item.gameObject.transform.position = newHeight;
-            } else {
-                Destroy(item.gameObject);
-                planeEnvironmentObjects.Remove(item);
-            }
-            
-        }
-    }
+   
 
-    PlaneEnvironmentObject ChoosePlaneObjectToSpawn (){
+    void ChoosePlaneObjectToSpawn (Vector3 position, UnityEngine.XR.ARSubsystems.TrackableId planeID){
         float typeValueSelector = Random.Range(0f, 1f);
         
         if (typeValueSelector < .15f){
-            int prefab = Random.Range(0, rocks.Count);
-            return rocks[prefab].rockPrefab;
+            int prefab = Random.Range(0, PlaneObjectData.singleton.rockTypes.Length-1);
+            var instance = Instantiate(PlaneObjectData.singleton.rockTypes[prefab], position, Quaternion.Euler(PlaneObjectData.singleton.RandomYRot()));
+            instance.planeID = planeID;
+            
         } else if (typeValueSelector < .35f){
-            int prefab = Random.Range(0, treesAndBushes.Count);
-            return treesAndBushes[prefab].bushTreePrefab;
+            int prefab = Random.Range(0, PlaneObjectData.singleton.treeTypes.Length - 1);
+            var instance = Instantiate(PlaneObjectData.singleton.treeTypes[prefab], position, Quaternion.Euler(PlaneObjectData.singleton.RandomYRot()));
+            instance.planeID = planeID;
         } else {
             //change 1f ^ to .6f once people buildings added 
-            int prefab = Random.Range(0, grass.Count);
-            return grass[prefab].grassPrefab;
+            int prefab = Random.Range(0, PlaneObjectData.singleton.grassTypes.Length - 1);
+            var instance = Instantiate(PlaneObjectData.singleton.grassTypes[prefab], position, Quaternion.identity);
+            instance.planeID = planeID;
         }
     }
+
+    //  void UpdatePlaneObjects(){
+    //     //fixes object heights as planes move (LOL)
+    //     //this currently only fixes height every time it is called -- should eventually manage object removal/plane removal as well
+    //     foreach (PlaneEnvironmentObject item in planeEnvironmentObjects){
+    //         ARPlane plane;
+    //         if (planeManager.trackables.TryGetTrackable(item.planeID, out plane)){
+    //             var newHeight = new Vector3(item.gameObject.transform.position.x, plane.transform.position.y, item.gameObject.transform.position.z);
+    //             item.gameObject.transform.position = newHeight;
+    //         } else {
+    //             Destroy(item.gameObject);
+    //             planeEnvironmentObjects.Remove(item);
+    //         }
+            
+    //     }
+    // }
 }
