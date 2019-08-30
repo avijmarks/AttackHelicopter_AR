@@ -12,6 +12,7 @@ public class SettingsMenu : MonoBehaviour
     public Text cutoffVText;
     public Text rotationVText;
     public Text distanceVText;
+    public Text forwardPercentText;
     public GameObject arMovePoint;
     public HeliMove heliMoveController;
 
@@ -65,6 +66,11 @@ public class SettingsMenu : MonoBehaviour
         distanceVText.text = newValue.ToString();
     }
 
+    public void ForwardPercentChanged (float newValue){
+        heliMoveController.forwardTotalPercent = newValue;
+        forwardPercentText.text = newValue.ToString();
+    }
+
     void InitVariableText(){
         horizVText.text = heliMoveController.horizontalSpeed.ToString();
         vertVText.text = heliMoveController.verticalSpeed.ToString();
@@ -72,6 +78,6 @@ public class SettingsMenu : MonoBehaviour
         cutoffVText.text = heliMoveController.rollCutoff.ToString();
         rotationVText.text = heliMoveController.rotationSpeed.ToString();
         distanceVText.text = arMovePoint.transform.localPosition.z.ToString();
-
+        forwardPercentText.text = heliMoveController.forwardTotalPercent.ToString();
     }
 }
