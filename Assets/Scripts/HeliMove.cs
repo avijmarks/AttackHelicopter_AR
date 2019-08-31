@@ -7,6 +7,7 @@ public class HeliMove : MonoBehaviour
     GameObject moveHere;
     public GameObject testMovePoint;
     public GameObject arMovePoint;
+    public GameObject arRotatePoint;
     public GameObject arCam;
 
     float time;
@@ -26,8 +27,10 @@ public class HeliMove : MonoBehaviour
 
     public bool useTestMovePoint;
 
-    public bool useHeliForward = false; 
+    public bool useHeliCompare = false; 
     public float forwardTotalPercent = .9f;
+    public bool useRotatePoint = false;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -59,7 +62,6 @@ public class HeliMove : MonoBehaviour
         //HERE
         var forwardBoost = GetForwardPercentage();
         var newHorizPos = Vector2.SmoothDamp(thisHorizPos, targetHorizPos, ref horizontalRefVel, (horizontalSpeed - forwardBoost) * Time.deltaTime);
-        Debug.Log(horizontalSpeed - forwardBoost);
         Vector3 newVector3Pos = new Vector3(newHorizPos.x, transform.position.y, newHorizPos.y);
         transform.position = newVector3Pos;
     }
@@ -76,8 +78,12 @@ public class HeliMove : MonoBehaviour
         //creates purely y rotation eulerangle vector3 sets for the rotation of the helicopter and rotation of the camera
         //then slerps using quaternion versions of these angle sets 
         Quaternion thisRot = Quaternion.Euler(0f, transform.eulerAngles.y, 0f);
+
         Quaternion camRot = Quaternion.Euler(0f, arCam.transform.eulerAngles.y, 0f);
-        transform.rotation = Quaternion.Slerp(thisRot, camRot, rotationSpeed);
+        var pointDir = arRotatePoint.transform.position - this.transform.position;
+        Quaternion pointRot = Quaternion.LookRotation(Vector3.up, -pointDir) * Quaternion.AngleAxis(90f, Vector3.right);
+        Quaternion theRot = useRotatePoint ? pointRot : camRot;
+        transform.rotation = Quaternion.Slerp(thisRot, theRot, rotationSpeed);
         
     }
 
@@ -107,28 +113,31 @@ public class HeliMove : MonoBehaviour
 
         Vector3 offset = transform.TransformVector(new Vector3(0f, 0f, 1f));
         var movePointVector3 = (arMovePoint.transform.position + offset) - this.transform.position; 
-        //var movePointAgain = new Vector3(0f, movePointVector3.y, 0f);
+
         
 
        
 
-        //Quaternion movePointDirection = Quaternion.Euler(movePointVector3);
+        
         Quaternion movePointDirection = Quaternion.LookRotation(Vector3.up, -movePointVector3.normalized) * Quaternion.AngleAxis(90f, Vector3.right);
         Quaternion heliDirection = Quaternion.Euler(new Vector3(0f, this.transform.eulerAngles.y, 0f));
+        // Debug.Log("heli dir" + heliDirection);
+        
 
-        Quaternion theDir = useHeliForward ? heliDirection : movePointDirection;
-        // Debug.Log("cam dir" + camDirection);
-        // Debug.Log("thedir" + theDir);
-        var percentage = Mathf.Pow((1f - (Quaternion.Angle(camDirection, theDir)/180f)), 2f);
-
-
+        Quaternion theDir = movePointDirection;
+        
+        float percentage;
+        if(useHeliCompare){
+            percentage = Mathf.Pow((1- (Quaternion.Angle(theDir, heliDirection)/180f)), 2f);
+        } else {
+            percentage = Mathf.Pow((1f - (Quaternion.Angle(camDirection, theDir)/180f)), 2f);
+        }
 
         
-       
-        
-        
+        // Debug.Log("percentage" + percentage);
         var increaseAmt = (percentage * (horizontalSpeed  * forwardTotalPercent));
-        //Debug.Log(increaseAmt);   
+        // Debug.Log("possible increase amt" + (horizontalSpeed * forwardTotalPercent));
+        
         return increaseAmt;
     }
 }
