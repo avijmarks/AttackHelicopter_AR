@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlaneObjectStateMachine : MonoBehaviour
+public class PlaneObjectStateMachine 
 {
     private IPlaneObjectState currentlyRunningState;
     private IPlaneObjectState previousState;

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SettingsMenu : MonoBehaviour
+public class DevSettingsMenu : MonoBehaviour
 {
+    public bool useDevSettings = false;
+    public GameObject devSettingsPanel;
     public GameObject settingsPanel;
     public Text horizVText;
     public Text vertVText;
@@ -22,17 +24,19 @@ public class SettingsMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        devSettingsPanel.SetActive(false);
         settingsPanel.SetActive(false);
     }
 
 
     public void OpenSettings (){
-        settingsPanel.SetActive(true);
+        GameObject settingsToUse = useDevSettings ? devSettingsPanel : settingsPanel;
+        settingsToUse.SetActive(true);
         InitVariableText();
     }
 
     public void CloseSettings (){
-        settingsPanel.SetActive(false);
+        devSettingsPanel.SetActive(false);
     }
 
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -75,7 +79,6 @@ public class SettingsMenu : MonoBehaviour
 
     public void useRotatePointChanged (){
         heliMoveController.useRotatePoint = heliMoveController.useRotatePoint ? false : true; 
-        
         useRotatePointVariableText.text = heliMoveController.useRotatePoint.ToString();
     }
 
@@ -94,6 +97,5 @@ public class SettingsMenu : MonoBehaviour
         forwardPercentText.text = heliMoveController.forwardTotalPercent.ToString();
         useRotatePointVariableText.text = heliMoveController.useRotatePoint.ToString();
         useHeliCompareVariableText.text = heliMoveController.useHeliCompare.ToString();
-
     }
 }

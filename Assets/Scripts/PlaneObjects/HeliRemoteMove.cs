@@ -56,7 +56,7 @@ public class HeliRemoteMove : MonoBehaviour
         
     }
 
-    void JoystickToMovePoint (){
+    void JoystickToRemoteMovePoint (){
         //uses joystick info to move the armovepoint in a direction on a horizontal plane
     }
 
