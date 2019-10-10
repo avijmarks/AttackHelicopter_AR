@@ -28,7 +28,7 @@ public class DevSettingsMenu : MonoBehaviour
         settingsPanel.SetActive(false);
     }
 
-
+    //OPENING AND CLOSING SETTINGS PANEL FUNCTIONS
     public void OpenSettings (){
         GameObject settingsToUse = useDevSettings ? devSettingsPanel : settingsPanel;
         settingsToUse.SetActive(true);
@@ -37,6 +37,7 @@ public class DevSettingsMenu : MonoBehaviour
 
     public void CloseSettings (){
         devSettingsPanel.SetActive(false);
+        settingsPanel.SetActive(false);
     }
 
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
