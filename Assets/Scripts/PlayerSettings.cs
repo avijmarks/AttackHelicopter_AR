@@ -23,6 +23,7 @@ public class PlayerSettings : MonoBehaviour
     //set stand in bool for flight mode
     //set color and text color based on mode
     public void ChangeFlightMode(){
+        AudioManager.instance.ClickSound();
         //just swappin boolean values
         standInForFlightBool = !standInForFlightBool;
         ChangeFlightModeUI();
@@ -47,9 +48,14 @@ public class PlayerSettings : MonoBehaviour
     }
 
     public void ChangeSoundEffectSettings (){
+        AudioManager.instance.ClickSound();
         //change sound stuff here when implemented
         standInForSoundBool = !standInForSoundBool;
-        soundEffectButton. = standInForSoundBool;
+        //soundEffectButton.image.sprite = soundEffectButton.
+    }
+
+    public void ShowCredits(){
+        AudioManager.instance.ClickSound();
     }
 
 }

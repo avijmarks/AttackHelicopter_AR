@@ -30,12 +30,14 @@ public class DevSettingsMenu : MonoBehaviour
 
     //OPENING AND CLOSING SETTINGS PANEL FUNCTIONS
     public void OpenSettings (){
+        AudioManager.instance.ClickSound();
         GameObject settingsToUse = useDevSettings ? devSettingsPanel : settingsPanel;
         settingsToUse.SetActive(true);
         InitVariableText();
     }
 
     public void CloseSettings (){
+        AudioManager.instance.ClickSound();
         devSettingsPanel.SetActive(false);
         settingsPanel.SetActive(false);
     }
