@@ -7,13 +7,15 @@ public class PlayerSettings : MonoBehaviour
 {
     //true == remote control
     public bool standInForFlightBool = false;
-    public bool standInForSoundBool = true;
+    public bool soundEnabled = true;
     public Button attachedModeButton;
     public Button remoteControlButton;
     public Text attachedButtonText;
     public Text remoteButtonText;
     public Button soundEffectButton; 
-    // Start is called before the first frame update
+    public Image soundOffSprite;
+
+    
     void Start()
     {
         ChangeFlightModeUI();
@@ -48,10 +50,19 @@ public class PlayerSettings : MonoBehaviour
     }
 
     public void ChangeSoundEffectSettings (){
+        
+        //change sound stuff here when implemented (based on bool)
+        soundEnabled = !soundEnabled;
+        soundOffSprite.enabled = soundEnabled ? false : true;
+        if (soundEnabled){
+            soundOffSprite.enabled = false;
+            AudioManager.instance.EnableSound();
+        } else if (!soundEnabled) {
+            soundOffSprite.enabled = true;
+            AudioManager.instance.DisableSound();
+        }
+        //play click sound after so if disabling sound we dont get any noise and vice versa
         AudioManager.instance.ClickSound();
-        //change sound stuff here when implemented
-        standInForSoundBool = !standInForSoundBool;
-        //soundEffectButton.image.sprite = soundEffectButton.
     }
 
     public void ShowCredits(){

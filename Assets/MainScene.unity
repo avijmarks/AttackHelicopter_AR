@@ -222,7 +222,7 @@ RectTransform:
   m_Children:
   - {fileID: 644493102}
   m_Father: {fileID: 2083311143}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -569,7 +569,7 @@ RectTransform:
   m_Children:
   - {fileID: 1491069377}
   m_Father: {fileID: 2083311143}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -731,7 +731,7 @@ GameObject:
   - component: {fileID: 321924334}
   - component: {fileID: 321924333}
   m_Layer: 5
-  m_Name: Image
+  m_Name: SoundOffSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -754,7 +754,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 24, y: 100}
+  m_SizeDelta: {x: 0, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &321924333
 MonoBehaviour:
@@ -776,7 +776,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: acb406552f1a34deda54f929000b67d9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4016,41 +4016,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1092698413}
   m_CullTransparentMesh: 0
---- !u!1 &1113187540
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1113187541}
-  m_Layer: 5
-  m_Name: Buttons
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1113187541
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1113187540}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2083311143}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 589.5}
-  m_SizeDelta: {x: -700, y: -1323}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1141126002
 GameObject:
   m_ObjectHideFlags: 0
@@ -5951,6 +5916,12 @@ MonoBehaviour:
     name: Click
     clip: {fileID: 8300000, guid: 8b7e8a89d8fbf425d99eadf49414a21e, type: 3}
     source: {fileID: 0}
+    volume: 0.2
+  heliSound:
+    name: HeliSound
+    clip: {fileID: 0}
+    source: {fileID: 1629576080}
+    volume: 1
 --- !u!4 &1582848119
 Transform:
   m_ObjectHideFlags: 0
@@ -8107,7 +8078,6 @@ RectTransform:
   - {fileID: 1497073295}
   - {fileID: 1279847964}
   - {fileID: 1967569294}
-  - {fileID: 1113187541}
   - {fileID: 76071320}
   - {fileID: 238138497}
   m_Father: {fileID: 342617060}
@@ -8168,12 +8138,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   standInForFlightBool: 0
-  standInForSoundBool: 1
+  soundEnabled: 1
   attachedModeButton: {fileID: 1279847965}
   remoteControlButton: {fileID: 1967569295}
   attachedButtonText: {fileID: 1342351131}
   remoteButtonText: {fileID: 322637635}
   soundEffectButton: {fileID: 644493103}
+  soundOffSprite: {fileID: 321924333}
 --- !u!1 &2084518314
 GameObject:
   m_ObjectHideFlags: 0
