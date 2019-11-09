@@ -4,15 +4,35 @@ using UnityEngine;
 
 public class HeliMoveModeManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public IHeliMoveMode attachedHeliMove;
+    public IHeliMoveMode remoteHeliMove;
+    IHeliMoveMode currentMode;
+    IHeliMoveMode disabledMode;
+    //bool used to control which mode its in; true = remote mode (false/attached is default)
+    public bool useRemoteMode = false;
+
+    void Awake(){
+        attachedHeliMove = GetComponent<AttachedHeliMove>();
+        remoteHeliMove = GetComponent<RemoteHeliMove>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
+    void Start(){
         
+        //defaults to attached, just like bool in playersettings.cs
+        currentMode = attachedHeliMove;
     }
+
+    
+
+    public void ChangeHeliMoveMode(IHeliMoveMode newMode){
+        currentMode.EndHeliMoveMode();
+        currentMode = newMode;
+        currentMode.StartHeliMoveMode();
+    }
+
+    void Update(){
+        currentMode.ExecuteOnHeliMoveModeUpdate();
+    }
+
+
 }

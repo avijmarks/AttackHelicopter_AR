@@ -6,7 +6,7 @@ public interface IHeliMoveMode
 {
     void StartHeliMoveMode();
 
-    void ExecuteHeliMoveModeUpdate();
+    void ExecuteOnHeliMoveModeUpdate();
 
-    public void EndHeliMoveMode();
+    void EndHeliMoveMode();
 }

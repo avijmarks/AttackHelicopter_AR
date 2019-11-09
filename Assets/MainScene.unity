@@ -3139,6 +3139,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 3a74f678ee8f3bd49aacf3de1ae4bcaa,
         type: 3}
+    - target: {fileID: 2929252283123773951, guid: aaa2c939c0359ac4dbce3f49e8b90252,
+        type: 3}
+      propertyPath: deadZone
+      value: 0.4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aaa2c939c0359ac4dbce3f49e8b90252, type: 3}
 --- !u!1 &968000623
@@ -6717,6 +6722,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1629931438}
+  - component: {fileID: 1629576082}
   - component: {fileID: 1629576079}
   - component: {fileID: 1629576081}
   - component: {fileID: 1629576080}
@@ -6734,7 +6740,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1629576078}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 073076928a8214a44b9632a95cf80d3e, type: 3}
   m_Name: 
@@ -6876,6 +6882,19 @@ MonoBehaviour:
   useHeliCompare: 0
   forwardTotalPercent: 0.75
   useRotatePoint: 1
+--- !u!114 &1629576082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1629576078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17a86a11e1ca7478c94f9011901f9c85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useRemoteMode: 0
 --- !u!1 &1629576090
 GameObject:
   m_ObjectHideFlags: 0
@@ -8377,6 +8396,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d97dadb37eb94093a0d7ef4ec36fc3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  heliMoveManager: {fileID: 1629576082}
   standInForFlightBool: 0
   soundEnabled: 1
   attachedModeButton: {fileID: 1279847965}

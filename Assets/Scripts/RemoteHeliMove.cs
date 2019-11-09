@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class HeliRemoteMove : MonoBehaviour
+[System.Serializable]
+public class RemoteHeliMove : MonoBehaviour, IHeliMoveMode
 {
     
     public FixedJoystick joystick;
@@ -19,7 +19,7 @@ public class HeliRemoteMove : MonoBehaviour
 
     //max distance the remoteMovePoint can be from the camera
     public float maxDistance;
-    public float remotePointMoveSpeed = 1f;
+    public float remotePointMoveSpeed = .1f;
     //time it takes to get to position horizontally -- should be lower than vertical speed
     public float horizontalSpeed = 70f;
     //time it takes to get to postion vertically -- should be higher than horizontal speed
@@ -43,30 +43,48 @@ public class HeliRemoteMove : MonoBehaviour
     {
         //only here because of old syntax from helimove.cs
         moveHere = remoteMovePoint;
+        joystick.gameObject.SetActive(false);
+    }
+
+    public void StartHeliMoveMode(){
+        remoteMovePoint.transform.position = arMovePoint.transform.position;
+        joystick.gameObject.SetActive(true);
+    }
+
+    public void ExecuteOnHeliMoveModeUpdate(){
+        UpdateRemotePointLocation();
+        HorizontalMove();
+        VerticalMove();
+        MoveRotation();
+        RollRotation();
+    }
+
+    public void EndHeliMoveMode(){
+        joystick.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        time += Time.deltaTime;
-        if (time > 2f){
-            UpdateRemotePointLocation();
-            HorizontalMove();
-            VerticalMove();
-            MoveRotation();
-            RollRotation();
-        }
+    // void Update()
+    // {
+    //     time += Time.deltaTime;
+    //     if (time > 2f){
+    //         UpdateRemotePointLocation();
+    //         HorizontalMove();
+    //         VerticalMove();
+    //         MoveRotation();
+    //         RollRotation();
+    //     }
         
-    }
+    // }
     void UpdateRemotePointLocation (){
         //move remotepoint based on joystick (limited by max distance)
         //distance checks needed
-        Vector3 localMovePosition = new Vector3(joystick.Horizontal * remotePointMoveSpeed, 0f, joystick.Vertical * remotePointMoveSpeed);
+        float relativeMoveSpeed = remotePointMoveSpeed * Time.deltaTime;
+        Vector3 localMovePosition = new Vector3(joystick.Horizontal * relativeMoveSpeed, 0f, joystick.Vertical * relativeMoveSpeed);
         Vector3 moveInDirection = arCam.transform.TransformVector(localMovePosition).normalized;
         remoteMovePoint.transform.position += moveInDirection;
         remoteMovePoint.transform.position = new Vector3(remoteMovePoint.transform.position.x, arMovePoint.transform.position.y, remoteMovePoint.transform.position.z);
         remoteMovePoint.transform.LookAt(remoteMovePoint.transform.TransformPoint(moveInDirection));
-        
     }
 
     void HorizontalMove (){

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class PlayerSettings : MonoBehaviour
 {
     //true == remote control
+    public HeliMoveModeManager heliMoveManager;
     public bool standInForFlightBool = false;
     public bool soundEnabled = true;
     public Button attachedModeButton;
@@ -14,7 +15,8 @@ public class PlayerSettings : MonoBehaviour
     public Text remoteButtonText;
     public Button soundEffectButton; 
     public Image soundOffSprite;
-
+    
+    
     
     void Start()
     {
@@ -27,19 +29,21 @@ public class PlayerSettings : MonoBehaviour
     public void ChangeFlightMode(){
         AudioManager.instance.ClickSound();
         //just swappin boolean values
-        standInForFlightBool = !standInForFlightBool;
+        heliMoveManager.useRemoteMode = !heliMoveManager.useRemoteMode;
         ChangeFlightModeUI();
+        IHeliMoveMode newMode = heliMoveManager.useRemoteMode ? heliMoveManager.remoteHeliMove : heliMoveManager.attachedHeliMove;
+        heliMoveManager.ChangeHeliMoveMode(newMode);
     }
 
     void ChangeFlightModeUI(){
         //changes color and text color of flightmode ui buttons
-        if (!standInForFlightBool){
+        if (!heliMoveManager.useRemoteMode){
             attachedModeButton.interactable = false;
             attachedButtonText.color = Color.white;
 
             remoteControlButton.interactable = true;
             remoteButtonText.color = remoteControlButton.colors.disabledColor;
-        } else if (standInForFlightBool){
+        } else if (heliMoveManager.useRemoteMode){
             remoteControlButton.interactable = false;
             remoteButtonText.color = Color.white;
 

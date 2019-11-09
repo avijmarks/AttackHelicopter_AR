@@ -18,7 +18,7 @@ public class DevSettingsMenu : MonoBehaviour
     public Text useRotatePointVariableText;
     public Text useHeliCompareVariableText;
     public GameObject arMovePoint;
-    public HeliMove heliMoveController;
+    public AttachedHeliMove heliMoveController;
 
 
     // Start is called before the first frame update

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeliMove : MonoBehaviour
+public class AttachedHeliMove : MonoBehaviour, IHeliMoveMode
 {
     GameObject moveHere;
     public GameObject testMovePoint;
@@ -42,18 +42,33 @@ public class HeliMove : MonoBehaviour
        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        time += Time.deltaTime;
-        if (time > 2f){
-            HorizontalMove();
-            VerticalMove();
-            MoveRotation();
-            RollRotation();
-        }
-        
+    public void StartHeliMoveMode(){
+
     }
+
+    public void ExecuteOnHeliMoveModeUpdate(){
+        HorizontalMove();
+        VerticalMove();
+        MoveRotation();
+        RollRotation();
+    }
+
+    public void EndHeliMoveMode(){
+
+    }
+
+    // Update is called once per frame
+    // void Update()
+    // {
+    //     time += Time.deltaTime;
+    //     if (time > 2f){
+    //         HorizontalMove();
+    //         VerticalMove();
+    //         MoveRotation();
+    //         RollRotation();
+    //     }
+        
+    // }
 
     void HorizontalMove (){
         //smoothdamp function for purely horizontal movement (lower speed value than vertical speed)
