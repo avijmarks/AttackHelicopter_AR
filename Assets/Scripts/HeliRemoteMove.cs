@@ -5,9 +5,11 @@ using UnityEngine;
 public class HeliRemoteMove : MonoBehaviour
 {
     
+    public FixedJoystick joystick;
     GameObject moveHere;
-    public GameObject testMovePoint;
     public GameObject arMovePoint;
+    public GameObject remoteMovePoint;
+    //an empty slightly in front of movepoint -- used for keeping rotation correct
     public GameObject arRotatePoint;
     public GameObject arCam;
 
@@ -15,6 +17,9 @@ public class HeliRemoteMove : MonoBehaviour
     Vector2 horizontalRefVel = Vector3.zero;
     float vertRefVel = 0f;
 
+    //max distance the remoteMovePoint can be from the camera
+    public float maxDistance;
+    public float remotePointMoveSpeed = 1f;
     //time it takes to get to position horizontally -- should be lower than vertical speed
     public float horizontalSpeed = 70f;
     //time it takes to get to postion vertically -- should be higher than horizontal speed
@@ -22,7 +27,7 @@ public class HeliRemoteMove : MonoBehaviour
     //amount of angle towards the point we wish to roll towards
     public float rollSpeed = .2f;
     //distance cutoff within which the roll amount will be a percentage of the standard rolltowardspoint angle (damps rolling when close)
-    public float rollCutoff = 2; 
+    public float rollCutoff = 2f; 
     //rotation speed around y axis
     public float rotationSpeed = .05f;
 
@@ -36,11 +41,8 @@ public class HeliRemoteMove : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       if (useTestMovePoint){
-           moveHere = testMovePoint;
-       } else if (!useTestMovePoint){
-           moveHere = arMovePoint;
-       }
+        //only here because of old syntax from helimove.cs
+        moveHere = remoteMovePoint;
     }
 
     // Update is called once per frame
@@ -48,6 +50,7 @@ public class HeliRemoteMove : MonoBehaviour
     {
         time += Time.deltaTime;
         if (time > 2f){
+            UpdateRemotePointLocation();
             HorizontalMove();
             VerticalMove();
             MoveRotation();
@@ -55,9 +58,15 @@ public class HeliRemoteMove : MonoBehaviour
         }
         
     }
-
-    void JoystickToRemoteMovePoint (){
-        //uses joystick info to move the armovepoint in a direction on a horizontal plane
+    void UpdateRemotePointLocation (){
+        //move remotepoint based on joystick (limited by max distance)
+        //distance checks needed
+        Vector3 localMovePosition = new Vector3(joystick.Horizontal * remotePointMoveSpeed, 0f, joystick.Vertical * remotePointMoveSpeed);
+        Vector3 moveInDirection = arCam.transform.TransformVector(localMovePosition).normalized;
+        remoteMovePoint.transform.position += moveInDirection;
+        remoteMovePoint.transform.position = new Vector3(remoteMovePoint.transform.position.x, arMovePoint.transform.position.y, remoteMovePoint.transform.position.z);
+        remoteMovePoint.transform.LookAt(remoteMovePoint.transform.TransformPoint(moveInDirection));
+        
     }
 
     void HorizontalMove (){
@@ -65,8 +74,9 @@ public class HeliRemoteMove : MonoBehaviour
         Vector2 thisHorizPos = new Vector2(transform.position.x, transform.position.z);
         Vector2 targetHorizPos = new Vector2(moveHere.transform.position.x, moveHere.transform.position.z);
         //HERE
-        var forwardBoost = GetForwardPercentage();
-        var newHorizPos = Vector2.SmoothDamp(thisHorizPos, targetHorizPos, ref horizontalRefVel, (horizontalSpeed - forwardBoost) * Time.deltaTime);
+        //commented out  code is to remove forward boost theoretically
+        //var forwardBoost = GetForwardPercentage();
+        var newHorizPos = Vector2.SmoothDamp(thisHorizPos, targetHorizPos, ref horizontalRefVel, (horizontalSpeed /* - forwardBoost*/) * Time.deltaTime);
         Vector3 newVector3Pos = new Vector3(newHorizPos.x, transform.position.y, newHorizPos.y);
         transform.position = newVector3Pos;
     }
@@ -117,7 +127,7 @@ public class HeliRemoteMove : MonoBehaviour
         Quaternion camDirection = Quaternion.Euler(new Vector3(0f, arCam.transform.eulerAngles.y, 0f));
 
         Vector3 offset = transform.TransformVector(new Vector3(0f, 0f, 1f));
-        var movePointVector3 = (arMovePoint.transform.position + offset) - this.transform.position; 
+        var movePointVector3 = (remoteMovePoint.transform.position + offset) - this.transform.position; 
 
         
 
