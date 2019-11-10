@@ -6,14 +6,16 @@ public class AttachedHeliMove : MonoBehaviour, IHeliMoveMode
 {
     GameObject moveHere;
     public GameObject testMovePoint;
-    public GameObject arMovePoint;
+    public MovePoint arMovePoint;
     public GameObject arRotatePoint;
     public GameObject arCam;
 
     float time;
     Vector2 horizontalRefVel = Vector3.zero;
     float vertRefVel = 0f;
+    
 
+    public float movePointDistance = .35f;
     //time it takes to get to position horizontally -- should be lower than vertical speed
     public float horizontalSpeed = 70f;
     //time it takes to get to postion vertically -- should be higher than horizontal speed
@@ -38,8 +40,9 @@ public class AttachedHeliMove : MonoBehaviour, IHeliMoveMode
        if (useTestMovePoint){
            moveHere = testMovePoint;
        } else if (!useTestMovePoint){
-           moveHere = arMovePoint;
+           moveHere = arMovePoint.gameObject;
        }
+       arMovePoint.distanceToCamera = movePointDistance;
     }
 
     public void StartHeliMoveMode(){
@@ -127,7 +130,7 @@ public class AttachedHeliMove : MonoBehaviour, IHeliMoveMode
         Quaternion camDirection = Quaternion.Euler(new Vector3(0f, arCam.transform.eulerAngles.y, 0f));
 
         Vector3 offset = transform.TransformVector(new Vector3(0f, 0f, 1f));
-        var movePointVector3 = (arMovePoint.transform.position + offset) - this.transform.position; 
+        var movePointVector3 = (arMovePoint.gameObject.transform.position + offset) - this.transform.position; 
 
         
 

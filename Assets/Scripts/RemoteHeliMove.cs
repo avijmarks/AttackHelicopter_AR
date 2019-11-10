@@ -18,8 +18,8 @@ public class RemoteHeliMove : MonoBehaviour, IHeliMoveMode
     float vertRefVel = 0f;
 
     //max distance the remoteMovePoint can be from the camera
-    public float maxDistance;
-    public float verticalOffsetRatio;
+    public float maxDistance = 100;
+    public float verticalPointDistance = .35f;
     public float remotePointMoveSpeed = .1f;
     //time it takes to get to position horizontally -- should be lower than vertical speed
     public float horizontalSpeed = 70f;
@@ -45,6 +45,7 @@ public class RemoteHeliMove : MonoBehaviour, IHeliMoveMode
         //only here because of old syntax from helimove.cs
         moveHere = remoteMovePoint;
         joystick.gameObject.SetActive(false);
+        arMovePoint.distanceToCamera = verticalPointDistance;
     }
 
     public void StartHeliMoveMode(){
@@ -81,11 +82,6 @@ public class RemoteHeliMove : MonoBehaviour, IHeliMoveMode
         remoteMovePoint.transform.position += moveInDirection;
         remoteMovePoint.transform.position = new Vector3(remoteMovePoint.transform.position.x, arMovePoint.transform.position.y, remoteMovePoint.transform.position.z);
         remoteMovePoint.transform.LookAt(remoteMovePoint.transform.TransformPoint(moveInDirection));
-
-        //distance to cam of vertical input is based on (either horizontal or total) distance from cam to helicopter
-        var camPosXZ = new Vector3(arCam.transform.position.x, 0f, arCam.transform.position.z);
-        var pointPosXZ = new Vector3(remoteMovePoint.transform.position.x, 0f, remoteMovePoint.transform.position.z);
-        arMovePoint.distanceToCamera = Vector3.Distance(camPosXZ, pointPosXZ) * verticalOffsetRatio;
     }
 
     void HorizontalMove (){
