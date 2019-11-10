@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class DevSettingsMenu : MonoBehaviour
 {
-    public bool useDevSettings = false;
+    
     public GameObject devSettingsPanel;
     public GameObject settingsPanel;
     public Text horizVText;
@@ -17,8 +17,14 @@ public class DevSettingsMenu : MonoBehaviour
     public Text forwardPercentText;
     public Text useRotatePointVariableText;
     public Text useHeliCompareVariableText;
-    public GameObject arMovePoint;
-    public AttachedHeliMove heliMoveController;
+    public Text remoteSpeedVText;
+    public MovePoint arMovePoint;
+    public AttachedHeliMove attachedMoveController;
+    public RemoteHeliMove remoteMoveController;
+    public HeliMoveModeManager heliMoveModeManager;
+
+    //delegate to make it easier/cleaner for me to see which mode's settings we're affecting
+    delegate void Mode();
 
 
     // Start is called before the first frame update
@@ -28,15 +34,15 @@ public class DevSettingsMenu : MonoBehaviour
         settingsPanel.SetActive(false);
     }
 
-    //OPENING AND CLOSING SETTINGS PANEL FUNCTIONS
-    public void OpenSettings (){
+    //OPENING AND CLOSING SETTINGS PANEL FUNCTIONS -- used by button triggers
+    public void OpenDevSettings (){
         AudioManager.instance.ClickSound();
-        GameObject settingsToUse = useDevSettings ? devSettingsPanel : settingsPanel;
-        settingsToUse.SetActive(true);
+        settingsPanel.SetActive(false);
+        devSettingsPanel.SetActive(true);
         InitVariableText();
     }
 
-    public void CloseSettings (){
+    public void CloseDevSettings (){
         AudioManager.instance.ClickSound();
         devSettingsPanel.SetActive(false);
         settingsPanel.SetActive(false);
@@ -46,59 +52,80 @@ public class DevSettingsMenu : MonoBehaviour
 
     public void HorizontalChanged (float newValue){
         //50-150
-        heliMoveController.horizontalSpeed = newValue;
+        Mode currentMode = heliMoveModeManager.useRemoteMode ? currentMode = Remote : currentMode = Attached;
+        currentMode();
+        void Remote(){
+            remoteMoveController.horizontalSpeed = newValue;
+        }
+        void Attached (){
+            attachedMoveController.horizontalSpeed = newValue;
+        }
+
         horizVText.text = newValue.ToString();
     }
     public void VerticalChanged(float newValue){
         //50-150
-        heliMoveController.verticalSpeed = newValue;
+        Mode currentMode = heliMoveModeManager.useRemoteMode ? currentMode = Remote : currentMode = Attached;
+        currentMode();
+        void Remote(){
+            remoteMoveController.verticalSpeed = newValue;
+        }
+        void Attached (){
+            attachedMoveController.verticalSpeed = newValue;
+        }
         vertVText.text = newValue.ToString();
     }
     public void RollChanged(float newValue){
         //0-1
-        heliMoveController.rollSpeed = newValue;
+        attachedMoveController.rollSpeed = newValue;
         rollVtext.text = newValue.ToString();
     }
     public void CutoffChanged(float newValue){
         //0-5
-        heliMoveController.rollCutoff = newValue;
+        attachedMoveController.rollCutoff = newValue;
         cutoffVText.text = newValue.ToString();
     }
     public void RotationChanged(float newValue){
         //0-0.25
-        heliMoveController.rotationSpeed = newValue;
+        attachedMoveController.rotationSpeed = newValue;
         rotationVText.text = newValue.ToString();
     }
     public void DistanceChanged(float newValue){
-        var newDistance = new Vector3(0f, 0f, newValue);
-        arMovePoint.transform.localPosition = newDistance;
+        arMovePoint.distanceToCamera = newValue;
         distanceVText.text = newValue.ToString();
     }
 
     public void ForwardPercentChanged (float newValue){
-        heliMoveController.forwardTotalPercent = newValue;
+        attachedMoveController.forwardTotalPercent = newValue;
         forwardPercentText.text = newValue.ToString();
     }
 
     public void useRotatePointChanged (){
-        heliMoveController.useRotatePoint = heliMoveController.useRotatePoint ? false : true; 
-        useRotatePointVariableText.text = heliMoveController.useRotatePoint.ToString();
+        attachedMoveController.useRotatePoint = attachedMoveController.useRotatePoint ? false : true; 
+        useRotatePointVariableText.text = attachedMoveController.useRotatePoint.ToString();
     }
 
     public void useHeliCompareChanged (){
-        heliMoveController.useHeliCompare = heliMoveController.useHeliCompare ? false : true; 
-        useHeliCompareVariableText.text = heliMoveController.useHeliCompare.ToString();
+        attachedMoveController.useHeliCompare = attachedMoveController.useHeliCompare ? false : true; 
+        useHeliCompareVariableText.text = attachedMoveController.useHeliCompare.ToString();
+    }
+
+    public void remoteSpeedChanged(float newValue){
+        remoteMoveController.remotePointMoveSpeed = newValue;
+        remoteSpeedVText.text = newValue.ToString();
+
     }
 
     void InitVariableText(){
-        horizVText.text = heliMoveController.horizontalSpeed.ToString();
-        vertVText.text = heliMoveController.verticalSpeed.ToString();
-        rollVtext.text = heliMoveController.rollSpeed.ToString();
-        cutoffVText.text = heliMoveController.rollCutoff.ToString();
-        rotationVText.text = heliMoveController.rotationSpeed.ToString();
-        distanceVText.text = arMovePoint.transform.localPosition.z.ToString();
-        forwardPercentText.text = heliMoveController.forwardTotalPercent.ToString();
-        useRotatePointVariableText.text = heliMoveController.useRotatePoint.ToString();
-        useHeliCompareVariableText.text = heliMoveController.useHeliCompare.ToString();
+        horizVText.text = attachedMoveController.horizontalSpeed.ToString();
+        vertVText.text = attachedMoveController.verticalSpeed.ToString();
+        rollVtext.text = attachedMoveController.rollSpeed.ToString();
+        cutoffVText.text = attachedMoveController.rollCutoff.ToString();
+        rotationVText.text = attachedMoveController.rotationSpeed.ToString();
+        distanceVText.text = arMovePoint.distanceToCamera.ToString();
+        forwardPercentText.text = attachedMoveController.forwardTotalPercent.ToString();
+        useRotatePointVariableText.text = attachedMoveController.useRotatePoint.ToString();
+        useHeliCompareVariableText.text = attachedMoveController.useHeliCompare.ToString();
+        remoteSpeedVText.text = remoteMoveController.remotePointMoveSpeed.ToString();
     }
 }

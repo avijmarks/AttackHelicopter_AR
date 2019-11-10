@@ -6886,8 +6886,8 @@ MonoBehaviour:
   remoteMovePoint: {fileID: 1483494208}
   arRotatePoint: {fileID: 2069583768}
   arCam: {fileID: 910530445}
-  maxDistance: 0
-  verticalOffsetRatio: 0.1
+  maxDistance: 100
+  verticalOffsetRatio: 0.01
   remotePointMoveSpeed: 1
   horizontalSpeed: 23
   verticalSpeed: 26

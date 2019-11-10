@@ -6,6 +6,10 @@ using UnityEngine.UI;
 public class PlayerSettings : MonoBehaviour
 {
     //true == remote control
+    public bool devSettingsEnabled = false;
+    public GameObject devSettingsButton;
+    public GameObject devSettingsPanel;
+    public GameObject playerSettingsPanel;
     public HeliMoveModeManager heliMoveManager;
     public bool standInForFlightBool = false;
     public bool soundEnabled = true;
@@ -15,6 +19,7 @@ public class PlayerSettings : MonoBehaviour
     public Text remoteButtonText;
     public Button soundEffectButton; 
     public Image soundOffSprite;
+
     
     
     
@@ -23,6 +28,18 @@ public class PlayerSettings : MonoBehaviour
         ChangeFlightModeUI();
     }
 
+
+    public void OpenSettings (){
+        AudioManager.instance.ClickSound();
+        this.gameObject.SetActive(true);
+        devSettingsButton.SetActive(devSettingsEnabled);
+
+    }
+
+    public void CloseSettings(){
+        AudioManager.instance.ClickSound();
+        this.gameObject.SetActive(false);
+    }
 
     //set stand in bool for flight mode
     //set color and text color based on mode
