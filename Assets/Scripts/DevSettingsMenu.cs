@@ -139,6 +139,7 @@ public class DevSettingsMenu : MonoBehaviour
         //purely remote
         remoteMoveController.remotePointMoveSpeed = newValue;
         remoteSpeedVText.text = newValue.ToString();
+        Debug.Log("move speed change called");
 
     }
 
