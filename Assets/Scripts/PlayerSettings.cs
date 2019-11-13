@@ -7,9 +7,9 @@ public class PlayerSettings : MonoBehaviour
 {
     //true == remote control
     public bool devSettingsEnabled = false;
+    public bool environmentGenEnabled = true;
     public GameObject devSettingsButton;
     public GameObject devSettingsPanel;
-    public GameObject playerSettingsPanel;
     public HeliMoveModeManager heliMoveManager;
     public bool standInForFlightBool = false;
     public bool soundEnabled = true;
@@ -19,6 +19,7 @@ public class PlayerSettings : MonoBehaviour
     public Text remoteButtonText;
     public Button soundEffectButton; 
     public Image soundOffSprite;
+    public Image environmentDisabledSprite;
 
     
     
@@ -33,7 +34,6 @@ public class PlayerSettings : MonoBehaviour
         AudioManager.instance.ClickSound();
         this.gameObject.SetActive(true);
         devSettingsButton.SetActive(devSettingsEnabled);
-
     }
 
     public void CloseSettings(){
@@ -86,8 +86,32 @@ public class PlayerSettings : MonoBehaviour
         AudioManager.instance.ClickSound();
     }
 
+    public void ChangeEnvironmentEnabled(){
+        AudioManager.instance.ClickSound();
+
+        //changing bool
+        environmentGenEnabled = !environmentGenEnabled;
+
+        //actually enabling or disabling spawning and associated UI
+        if (environmentGenEnabled){
+            //do environment gen things
+            environmentDisabledSprite.enabled = false;
+            PlaneObjectData.singleton.EnableEnvironmentSpawning();
+        } else if (!environmentGenEnabled){
+            //do environment gen disabled things
+            environmentDisabledSprite.enabled = true;
+            PlaneObjectData.singleton.DisableEnvironmentSpawning();
+        }
+
+    }
+
     public void ShowCredits(){
         AudioManager.instance.ClickSound();
+    }
+
+    public void SetUIOnLoad(){
+        //this function needs to set appropriate UI on load given player settings in place
+
     }
 
 }

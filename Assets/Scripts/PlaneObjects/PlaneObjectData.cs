@@ -24,6 +24,12 @@ public class PlaneObjectData : MonoBehaviour
     public Color[] rockColors;
     public Vector2 rockScaleRange = new Vector2(.07f, .13f);
 
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public List<GameObject> currentPlaneEnvironmentObjects = new List<GameObject>();
+    public bool currentlySpawning = true;
+    public bool maxObjectsReached = false;
+    public int maxPlaneObjects = 200;
+
 
     void Awake(){
         if (singleton == null){
@@ -37,4 +43,19 @@ public class PlaneObjectData : MonoBehaviour
         var newRot = new Vector3(0f, Random.Range(0f, 360f), 0f);
         return newRot;
     }
+
+    public void DisableEnvironmentSpawning(){
+        PlaneObjectData.singleton.currentlySpawning = false;
+        for (int i = 0; i < PlaneObjectData.singleton.currentPlaneEnvironmentObjects.Count; i++)
+        {
+            Destroy(PlaneObjectData.singleton.currentPlaneEnvironmentObjects[i].gameObject);
+        }
+        PlaneObjectData.singleton.currentPlaneEnvironmentObjects.Clear();
+    }
+
+    public void EnableEnvironmentSpawning(){
+        PlaneObjectData.singleton.currentlySpawning = true;
+    }
+
+    
 }
