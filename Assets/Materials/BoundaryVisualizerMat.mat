@@ -9,8 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: BoundaryVisualizerMat
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: _ALPHABLEND_ON _DETAIL_MULX2 _GLOSSYREFLECTIONS_OFF
-  m_LightmapFlags: 4
+  m_ShaderKeywords: _ALPHABLEND_ON _DETAIL_MULX2 _EMISSION _GLOSSYREFLECTIONS_OFF
+  m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 3000
@@ -37,11 +37,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: b31fcf786e45f40e284930705263ba6d, type: 3}
+        m_Texture: {fileID: 2800000, guid: 86f01173d62044e93b96d479ebe6b8ab, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -56,13 +56,17 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
-    - _DetailNormalMapScale: 1
+    - _DetailNormalMapScale: 0
     - _DstBlend: 10
     - _GlossMapScale: 0.598
-    - _Glossiness: 1
+    - _Glossiness: 0.36
     - _GlossyReflections: 0
     - _GridSize: 10
     - _LineSize: 0.15
@@ -80,7 +84,8 @@ Material:
     - _ZWrite: 0
     m_Colors:
     - _CellColor: {r: 0, g: 0, b: 0, a: 0}
-    - _Color: {r: 0, g: 0.94016874, b: 0.9811321, a: 0.6431373}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Color: {r: 0, g: 0.6473513, b: 0.98039216, a: 1}
+    - _EmissionColor: {r: 0.04313727, g: 0.38993695, b: 0.972549, a: 1}
     - _LineColor: {r: 1, g: 1, b: 1, a: 1}
     - _SelectedColor: {r: 1, g: 0, b: 0, a: 1}
+    - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}

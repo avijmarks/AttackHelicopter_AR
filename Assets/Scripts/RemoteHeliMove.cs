@@ -37,6 +37,9 @@ public class RemoteHeliMove : MonoBehaviour, IHeliMoveMode
     public bool useHeliCompare = false; 
     public float forwardTotalPercent = .9f;
     public bool useRotatePoint = false;
+    public GameObject boundaryGridPrefab;
+    bool currentlyDisplayingBoundary = false;
+    GameObject currentBoundaryBeingDisplayed;
     
 
     // Start is called before the first frame update
@@ -84,7 +87,7 @@ public class RemoteHeliMove : MonoBehaviour, IHeliMoveMode
         moveInDirection = CheckMaxPointDistance(moveInDirection);
         
         remoteMovePoint.transform.position += moveInDirection;
-        Debug.Log(moveInDirection);
+        
         remoteMovePoint.transform.position = new Vector3(remoteMovePoint.transform.position.x, arMovePoint.transform.position.y, remoteMovePoint.transform.position.z);
         if (moveInDirection != Vector3.zero){
             Quaternion remotePointRotation = Quaternion.LookRotation(moveInDirection, Vector3.up);
@@ -93,13 +96,51 @@ public class RemoteHeliMove : MonoBehaviour, IHeliMoveMode
     }
 
     Vector3 CheckMaxPointDistance(Vector3 moveInDirection){
+       
         var currentDistanceToPoint = Vector3.Distance(arCam.transform.position, remoteMovePoint.transform.position);
         var newDistanceToPoint = Vector3.Distance(arCam.transform.position, (remoteMovePoint.transform.position + moveInDirection));
         if (newDistanceToPoint > maxDistance && newDistanceToPoint > currentDistanceToPoint){
             //maxdistance check
             moveInDirection = Vector3.zero;
+            
+            
+            MaxDistanceExceededVisualizer(moveInDirection);
         }
         return moveInDirection;
+    }
+
+    
+
+    void MaxDistanceExceededVisualizer(Vector3 beyondMaxPoint){
+        if (currentlyDisplayingBoundary){
+                return;
+        }
+        //creates a plane/grid visualizer at location helicopter is exceeding max distance
+        beyondMaxPoint = remoteMovePoint.transform.TransformPoint(beyondMaxPoint);
+        GameObject boundaryGridInstance = Instantiate(boundaryGridPrefab);
+        currentlyDisplayingBoundary = true;
+        currentBoundaryBeingDisplayed = boundaryGridInstance;
+    
+        boundaryGridInstance.transform.position = beyondMaxPoint;
+        Vector3 gridLookPoint = beyondMaxPoint - arCam.transform.position;
+        boundaryGridInstance.transform.rotation = Quaternion.LookRotation(gridLookPoint, Vector3.up);
+        StartCoroutine("DisplayBoundary");
+
+       
+    }
+     IEnumerator DisplayBoundary () {
+            float time = 0f;
+            MeshRenderer renderer = currentBoundaryBeingDisplayed.GetComponentsInChildren<MeshRenderer>()[0];
+            
+            while (time < 2.0f){
+                time += Time.deltaTime;
+                Color c = renderer.material.color;
+                c.a -= (Time.deltaTime / 2f);
+                renderer.material.color = c;
+                yield return null;
+            }
+        Destroy(currentBoundaryBeingDisplayed);
+        currentlyDisplayingBoundary = false;
     }
 
     void HorizontalMove (){
