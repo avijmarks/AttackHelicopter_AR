@@ -80,13 +80,9 @@ public class RemoteHeliMove : MonoBehaviour, IHeliMoveMode
         Vector3 localMovePosition = new Vector3(joystick.Horizontal * relativeMoveSpeed, 0f, joystick.Vertical * relativeMoveSpeed);
         Vector3 moveInDirection = arCam.transform.TransformVector(localMovePosition).normalized;
         
-
-        var currentDistanceToPoint = Vector3.Distance(arCam.transform.position, remoteMovePoint.transform.position);
-        var newDistanceToPoint = Vector3.Distance(arCam.transform.position, (remoteMovePoint.transform.position + moveInDirection));
-        if (newDistanceToPoint > maxDistance && newDistanceToPoint > currentDistanceToPoint){
-            //maxdistance check
-            moveInDirection = Vector3.zero;
-        }
+        //checks if new movement would exceed max distance and returns vector3.zero if it will
+        moveInDirection = CheckMaxPointDistance(moveInDirection);
+        
         remoteMovePoint.transform.position += moveInDirection;
         Debug.Log(moveInDirection);
         remoteMovePoint.transform.position = new Vector3(remoteMovePoint.transform.position.x, arMovePoint.transform.position.y, remoteMovePoint.transform.position.z);
@@ -94,18 +90,24 @@ public class RemoteHeliMove : MonoBehaviour, IHeliMoveMode
             Quaternion remotePointRotation = Quaternion.LookRotation(moveInDirection, Vector3.up);
             remoteMovePoint.transform.rotation = remotePointRotation;
         }
-        
-        //remoteMovePoint.transform.LookAt(remoteMovePoint.transform.TransformPoint(moveInDirection));
+    }
+
+    Vector3 CheckMaxPointDistance(Vector3 moveInDirection){
+        var currentDistanceToPoint = Vector3.Distance(arCam.transform.position, remoteMovePoint.transform.position);
+        var newDistanceToPoint = Vector3.Distance(arCam.transform.position, (remoteMovePoint.transform.position + moveInDirection));
+        if (newDistanceToPoint > maxDistance && newDistanceToPoint > currentDistanceToPoint){
+            //maxdistance check
+            moveInDirection = Vector3.zero;
+        }
+        return moveInDirection;
     }
 
     void HorizontalMove (){
         //smoothdamp function for purely horizontal movement (lower speed value than vertical speed)
         Vector2 thisHorizPos = new Vector2(transform.position.x, transform.position.z);
         Vector2 targetHorizPos = new Vector2(moveHere.transform.position.x, moveHere.transform.position.z);
-        //HERE
-        //commented out  code is to remove forward boost theoretically
-        //var forwardBoost = GetForwardPercentage();
-        var newHorizPos = Vector2.SmoothDamp(thisHorizPos, targetHorizPos, ref horizontalRefVel, (horizontalSpeed /* - forwardBoost*/) * Time.deltaTime);
+        
+        var newHorizPos = Vector2.SmoothDamp(thisHorizPos, targetHorizPos, ref horizontalRefVel, (horizontalSpeed * Time.deltaTime));
         Vector3 newVector3Pos = new Vector3(newHorizPos.x, transform.position.y, newHorizPos.y);
         transform.position = newVector3Pos;
     }
@@ -128,7 +130,6 @@ public class RemoteHeliMove : MonoBehaviour, IHeliMoveMode
         Quaternion pointRot = Quaternion.LookRotation(Vector3.up, -pointDir) * Quaternion.AngleAxis(90f, Vector3.right);
         Quaternion theRot = useRotatePoint ? pointRot : camRot;
         transform.rotation = Quaternion.Slerp(thisRot, theRot, rotationSpeed);
-        
     }
 
     void RollRotation(){
@@ -150,39 +151,5 @@ public class RemoteHeliMove : MonoBehaviour, IHeliMoveMode
         var direction = (moveHere.transform.position - this.transform.position).normalized;
         var newDirection = Quaternion.Slerp(this.transform.rotation, Quaternion.FromToRotation(Vector3.up, direction), rollSlerpValue);
         transform.rotation = Quaternion.Euler(newDirection.eulerAngles.x, transform.eulerAngles.y, newDirection.eulerAngles.z);
-    }
-
-    float GetForwardPercentage(){
-        //should be useless in this remote version of code --DELETE 
-        Quaternion camDirection = Quaternion.Euler(new Vector3(0f, arCam.transform.eulerAngles.y, 0f));
-
-        Vector3 offset = transform.TransformVector(new Vector3(0f, 0f, 1f));
-        var movePointVector3 = (remoteMovePoint.transform.position + offset) - this.transform.position; 
-
-        
-
-       
-
-        
-        Quaternion movePointDirection = Quaternion.LookRotation(Vector3.up, -movePointVector3.normalized) * Quaternion.AngleAxis(90f, Vector3.right);
-        Quaternion heliDirection = Quaternion.Euler(new Vector3(0f, this.transform.eulerAngles.y, 0f));
-        // Debug.Log("heli dir" + heliDirection);
-        
-
-        Quaternion theDir = movePointDirection;
-        
-        float percentage;
-        if(useHeliCompare){
-            percentage = Mathf.Pow((1- (Quaternion.Angle(theDir, heliDirection)/180f)), 2f);
-        } else {
-            percentage = Mathf.Pow((1f - (Quaternion.Angle(camDirection, theDir)/180f)), 2f);
-        }
-
-        
-        // Debug.Log("percentage" + percentage);
-        var increaseAmt = (percentage * (horizontalSpeed  * forwardTotalPercent));
-        // Debug.Log("possible increase amt" + (horizontalSpeed * forwardTotalPercent));
-        
-        return increaseAmt;
     }
 }

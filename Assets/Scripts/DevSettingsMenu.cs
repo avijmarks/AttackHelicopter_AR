@@ -28,7 +28,7 @@ public class DevSettingsMenu : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         devSettingsPanel.SetActive(false);
         settingsPanel.SetActive(false);
