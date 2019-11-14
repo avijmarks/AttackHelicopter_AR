@@ -79,6 +79,7 @@ public class RemoteHeliMove : MonoBehaviour, IHeliMoveMode
         float relativeMoveSpeed = remotePointMoveSpeed * Time.deltaTime;
         Vector3 localMovePosition = new Vector3(joystick.Horizontal * relativeMoveSpeed, 0f, joystick.Vertical * relativeMoveSpeed);
         Vector3 moveInDirection = arCam.transform.TransformVector(localMovePosition).normalized;
+        
 
         var currentDistanceToPoint = Vector3.Distance(arCam.transform.position, remoteMovePoint.transform.position);
         var newDistanceToPoint = Vector3.Distance(arCam.transform.position, (remoteMovePoint.transform.position + moveInDirection));
@@ -87,8 +88,14 @@ public class RemoteHeliMove : MonoBehaviour, IHeliMoveMode
             moveInDirection = Vector3.zero;
         }
         remoteMovePoint.transform.position += moveInDirection;
+        Debug.Log(moveInDirection);
         remoteMovePoint.transform.position = new Vector3(remoteMovePoint.transform.position.x, arMovePoint.transform.position.y, remoteMovePoint.transform.position.z);
-        remoteMovePoint.transform.LookAt(remoteMovePoint.transform.TransformPoint(moveInDirection));
+        if (moveInDirection != Vector3.zero){
+            Quaternion remotePointRotation = Quaternion.LookRotation(moveInDirection, Vector3.up);
+            remoteMovePoint.transform.rotation = remotePointRotation;
+        }
+        
+        //remoteMovePoint.transform.LookAt(remoteMovePoint.transform.TransformPoint(moveInDirection));
     }
 
     void HorizontalMove (){
@@ -146,6 +153,7 @@ public class RemoteHeliMove : MonoBehaviour, IHeliMoveMode
     }
 
     float GetForwardPercentage(){
+        //should be useless in this remote version of code --DELETE 
         Quaternion camDirection = Quaternion.Euler(new Vector3(0f, arCam.transform.eulerAngles.y, 0f));
 
         Vector3 offset = transform.TransformVector(new Vector3(0f, 0f, 1f));
