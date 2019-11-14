@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR.ARFoundation;
 
 public class PlayerSettings : MonoBehaviour
 {
@@ -20,12 +21,22 @@ public class PlayerSettings : MonoBehaviour
     public Button soundEffectButton; 
     public Image soundOffSprite;
     public Image environmentDisabledSprite;
-
+    
+    public ARSession aRSession;
+    public RemoteHeliMove remoteHeliMove;
     
     
     
     void Start()
     {
+        InitializeUI();
+    }
+
+    void InitializeUI(){
+        //initializes UI graphics based on saved/current settings
+        ChangeFlightModeUI();
+        ChangeSoundEffectSettingsUI();
+        ChangeEnvironmentUI();
         ChangeFlightModeUI();
     }
 
@@ -67,23 +78,22 @@ public class PlayerSettings : MonoBehaviour
             attachedModeButton.interactable = true;
             attachedButtonText.color = attachedModeButton.colors.disabledColor;
         }
-        
     }
 
     public void ChangeSoundEffectSettings (){
-        
-        //change sound stuff here when implemented (based on bool)
+        //change sound stuff 
         soundEnabled = !soundEnabled;
-        soundOffSprite.enabled = soundEnabled ? false : true;
         if (soundEnabled){
-            soundOffSprite.enabled = false;
             AudioManager.instance.EnableSound();
         } else if (!soundEnabled) {
-            soundOffSprite.enabled = true;
             AudioManager.instance.DisableSound();
         }
+        ChangeSoundEffectSettingsUI();
         //play click sound after so if disabling sound we dont get any noise and vice versa
         AudioManager.instance.ClickSound();
+    }
+    void ChangeSoundEffectSettingsUI(){
+        soundOffSprite.enabled = soundEnabled ? false : true;
     }
 
     public void ChangeEnvironmentEnabled(){
@@ -95,14 +105,15 @@ public class PlayerSettings : MonoBehaviour
         //actually enabling or disabling spawning and associated UI
         if (environmentGenEnabled){
             //do environment gen things
-            environmentDisabledSprite.enabled = false;
             PlaneObjectData.singleton.EnableEnvironmentSpawning();
         } else if (!environmentGenEnabled){
             //do environment gen disabled things
-            environmentDisabledSprite.enabled = true;
             PlaneObjectData.singleton.DisableEnvironmentSpawning();
         }
-
+        ChangeEnvironmentUI();
+    }
+    void ChangeEnvironmentUI(){
+        environmentDisabledSprite.enabled = environmentGenEnabled ? false : true;
     }
 
     public void ShowCredits(){
@@ -112,6 +123,15 @@ public class PlayerSettings : MonoBehaviour
     public void SetUIOnLoad(){
         //this function needs to set appropriate UI on load given player settings in place
 
+    }
+
+    public void RestartSession(){
+        //restarts ARSession -- clears current objects... maintains settings from backend
+        //needs to put helicopter back in front of camera as though it is at attached cam movepoint
+        AudioManager.instance.ClickSound();
+        aRSession.Reset();
+        PlaneObjectData.singleton.DestroyCurrentEnvironment();
+        remoteHeliMove.ResetRemotePoint();
     }
 
 }

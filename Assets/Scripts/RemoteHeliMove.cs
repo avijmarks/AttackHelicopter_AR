@@ -45,12 +45,19 @@ public class RemoteHeliMove : MonoBehaviour, IHeliMoveMode
         //only here because of old syntax from helimove.cs
         moveHere = remoteMovePoint;
         joystick.gameObject.SetActive(false);
-        arMovePoint.distanceToCamera = verticalPointDistance;
+        
+    }
+
+    public void ResetRemotePoint(){
+        //resets remotepoint position to same position as the attached movepoint in front of the camera
+        remoteMovePoint.transform.position = arMovePoint.transform.position;
+        remoteMovePoint.transform.rotation = arMovePoint.transform.rotation;
     }
 
     public void StartHeliMoveMode(){
-        remoteMovePoint.transform.position = arMovePoint.transform.position;
         joystick.gameObject.SetActive(true);
+        arMovePoint.distanceToCamera = verticalPointDistance;
+        ResetRemotePoint();
     }
 
     public void ExecuteOnHeliMoveModeUpdate(){

@@ -46,6 +46,10 @@ public class PlaneObjectData : MonoBehaviour
 
     public void DisableEnvironmentSpawning(){
         PlaneObjectData.singleton.currentlySpawning = false;
+        DestroyCurrentEnvironment();
+    }
+
+    public void DestroyCurrentEnvironment(){
         for (int i = 0; i < PlaneObjectData.singleton.currentPlaneEnvironmentObjects.Count; i++)
         {
             Destroy(PlaneObjectData.singleton.currentPlaneEnvironmentObjects[i].gameObject);
