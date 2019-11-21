@@ -629,10 +629,10 @@ PlayerSettings:
   facebookXfbml: 0
   facebookFrictionlessRequests: 1
   apiCompatibilityLevel: 6
-  cloudProjectId: 
+  cloudProjectId: fb566657-2409-4a80-8d1e-5bae26072525
   framebufferDepthMemorylessMode: 0
-  projectName: 
-  organizationId: 
+  projectName: AttackHelicopter_AR
+  organizationId: ajmarks
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0
