@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     protected PostProcessVolume blackAndWhiteEffect;
     // Start is called before the first frame update
+    public GameObject unpaidWaitPanel;
+    public Text unpaidWaitCountdownText;
     void Awake()
     {
         //singleton code :)
@@ -42,18 +44,17 @@ public class GameManager : MonoBehaviour
             CountDown();
         } else if (paidVersion){
             unpaidVersionPanel.SetActive(false);
-        }
-        
+        }   
     }
 
     public void CountDown ()
     {
-        StartCoroutine("ICountDown");
-       
+        StartCoroutine("IInitialCountDown");
     }
-    IEnumerator ICountDown ()
+
+    IEnumerator IInitialCountDown ()
     {
-        float time = 30f;
+        float time = 10f;
         string currentTimeString;
         while (time > 0){
             time -= Time.deltaTime;
@@ -62,8 +63,32 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
-        BlackWhiteScreen();   
+        ShowUnpaidPanel();  
     }
+
+    void ShowUnpaidPanel()
+    {
+        StartCoroutine("IWaitPanelCountdown");
+        Debug.Log("when is this called");
+    }
+
+    IEnumerator IWaitPanelCountdown ()
+    {
+        unpaidWaitPanel.SetActive(true);
+        float time = 10f;
+        string currentTimeString;
+        while (time > 0){
+            time -= Time.deltaTime;
+            currentTimeString = Mathf.RoundToInt(time).ToString();
+            unpaidWaitCountdownText.text = currentTimeString;
+            yield return null;
+        }
+
+        unpaidWaitPanel.SetActive(false);
+    }
+
+
+    //old function for b/w screen effect, DELETE AND DELETE ALL POSTPROCESSING STUFF FROM ASSETS
     void BlackWhiteScreen (){
         ColorGrading colorGradingLayer;
         blackAndWhiteEffect.profile.TryGetSettings(out colorGradingLayer);
