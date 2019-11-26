@@ -2727,7 +2727,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &665655111
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2802,7 +2802,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &705022999
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2819,8 +2819,8 @@ MonoBehaviour:
   countDownText: {fileID: 1522396626}
   unpaidVersionPanel: {fileID: 104511007}
   blackAndWhiteEffect: {fileID: 2040451744}
-  UnpaidWaitPanel: {fileID: 0}
-  UnpaidWaitCountdownText: {fileID: 0}
+  unpaidWaitPanel: {fileID: 665655110}
+  unpaidWaitCountdownText: {fileID: 742725348}
 --- !u!4 &705023000
 Transform:
   m_ObjectHideFlags: 0
@@ -10490,7 +10490,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2083311143
 RectTransform:
   m_ObjectHideFlags: 0
