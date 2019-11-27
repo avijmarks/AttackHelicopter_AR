@@ -2,12 +2,8 @@
 testing the cool things you can do with AR with a basic helicopter game
 ***
 ## Screenshots
-
 #### Cool Screenshots from Remote Control Mode
-<img src="ReadMeMedia/Screenshot1.PNG" width="300" >
-<img src="ReadMeMedia/Screenshot2.PNG" width="300" >
-<img src="ReadMeMedia/Screenshot3.PNG" width="300" >
-<img src="ReadMeMedia/Screenshot4.PNG" width="300" >
+<img src="ReadMeMedia/Screenshot1.PNG?" width="300" >    <img src="ReadMeMedia/Screenshot2.PNG" width="300" >     <img src="ReadMeMedia/Screenshot3.PNG" width="300" >    <img src="ReadMeMedia/Screenshot4.PNG" width="300" >
 
 ***
 ### Settings Page
