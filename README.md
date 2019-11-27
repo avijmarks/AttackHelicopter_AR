@@ -6,8 +6,8 @@ testing the cool things you can do with AR with a basic helicopter game
 <img src="ReadMeMedia/Screenshot1.PNG?" width="300" >    <img src="ReadMeMedia/Screenshot2.PNG" width="300" >     <img src="ReadMeMedia/Screenshot3.PNG" width="300" >    <img src="ReadMeMedia/Screenshot4.PNG" width="300" >
 
 ***
-### Settings Page
-<img src="ReadMeMedia/Settings.png" width="300" >
+## Settings Page and IAP prompt UI
+<img src="ReadMeMedia/Settings.png" width="250" > <img src="ReadMeMedia/IAPBanner.png" width="250" > <img src="ReadMeMedia/IAPPanel.png" width="250" > 
 
 ***
 ## GIFs
