@@ -10,8 +10,9 @@ testing the cool things you can do with AR with a basic helicopter game
 <img src="ReadMeMedia/Screenshot4.PNG" width="300" >
 
 ***
+### Settings Page
+<img src="ReadMeMedia/Settings.png" width="300" >
 
-#### Settings Page
 ***
 ## GIFs
 ***
