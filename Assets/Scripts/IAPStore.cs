@@ -1,18 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Purchasing;
 
 public class IAPStore : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    
+    public void OnPurchaseComplete (Product product){
+        SaveManager.instance.ChangeVersion_Full("FullAppVersion");
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void OnPurchaseFailure (Product product, PurchaseFailureReason reason){
+        Debug.Log("Purchase of Product" + product.definition.id + "failed due to" + reason);
     }
+
 }

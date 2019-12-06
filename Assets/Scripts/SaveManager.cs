@@ -34,8 +34,7 @@ public class SaveManager : MonoBehaviour
         if (!PlayerPrefs.HasKey(FullAppVersion_Key)){
             PlayerPrefs.SetString(FullAppVersion_Key, "False");
             PlayerPrefs.Save();
-            //just to test 
-            
+               
         }
         
     }
@@ -52,14 +51,13 @@ public class SaveManager : MonoBehaviour
     ///<summary> 
     ///Sets the boolean that actually controls the game (paidVersion on GameManager.cs) to true or false based on current app version on file
     ///</summary>
-    void SetGameVersion (){
+    public void SetGameVersion (){
         if (PlayerPrefs.GetString(FullAppVersion_Key) == "True"){
             GameManager.instance.paidVersion = true;
         } else if (PlayerPrefs.GetString(FullAppVersion_Key) == "False"){
             GameManager.instance.paidVersion = false;
         }
-        //just to test 
-            Debug.Log(PlayerPrefs.GetString(FullAppVersion_Key));
+        
     }
 
 

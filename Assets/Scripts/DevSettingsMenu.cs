@@ -18,6 +18,7 @@ public class DevSettingsMenu : MonoBehaviour
     public Text useRotatePointVariableText;
     public Text useHeliCompareVariableText;
     public Text remoteSpeedVText;
+    public Text paidVersionVText;
     public MovePoint arMovePoint;
     public AttachedHeliMove attachedMoveController;
     public RemoteHeliMove remoteMoveController;
@@ -123,27 +124,35 @@ public class DevSettingsMenu : MonoBehaviour
         forwardPercentText.text = newValue.ToString();
     }
 
-    public void useRotatePointChanged (){
+    public void UseRotatePointChanged (){
         //purely attached -- forward% variable
         attachedMoveController.useRotatePoint = attachedMoveController.useRotatePoint ? false : true; 
         useRotatePointVariableText.text = attachedMoveController.useRotatePoint.ToString();
     }
 
-    public void useHeliCompareChanged (){
+    public void UseHeliCompareChanged (){
         //purely attached -- forward% variable
         attachedMoveController.useHeliCompare = attachedMoveController.useHeliCompare ? false : true; 
         useHeliCompareVariableText.text = attachedMoveController.useHeliCompare.ToString();
     }
 
-    public void remoteSpeedChanged(float newValue){
+    public void RemoteSpeedChanged(float newValue){
         //purely remote
         remoteMoveController.remotePointMoveSpeed = newValue;
         remoteSpeedVText.text = newValue.ToString();
         Debug.Log("move speed change called");
+    }
 
+    public void ChangePaidVersion()
+    {
+        PlayerPrefs.SetString("FullAppVersion", "False");
+        PlayerPrefs.Save();
+        SaveManager.instance.SetGameVersion();
+        paidVersionVText.text = PlayerPrefs.GetString("FullAppVersion");
     }
 
     void InitVariableText(){
+        paidVersionVText.text = PlayerPrefs.GetString("FullAppVersion"); //setting variable text for button for switching saved app version to false
         Mode currentMode = heliMoveModeManager.useRemoteMode ? currentMode = Remote : currentMode = Attached;
         currentMode();
         void Remote(){
