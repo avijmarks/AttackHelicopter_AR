@@ -13,6 +13,11 @@ public class IAPDelayWindowManager : MonoBehaviour
     protected GameObject unpaidWaitPanel;
     [SerializeField]
     protected Text unpaidWaitCountdownText;
+    [SerializeField]
+    protected GameObject restoreButton;
+    [SerializeField]
+    protected GameObject fullVersionButton;
+    
 
     bool bannerCountDownActive = false;
     bool panelCountDownActive = false;
@@ -47,6 +52,8 @@ public class IAPDelayWindowManager : MonoBehaviour
     void DisableAllIAPPrompts(){
         unpaidBanner.SetActive(false);
         unpaidWaitPanel.SetActive(false);
+        restoreButton.SetActive(false);
+        fullVersionButton.SetActive(false);
     }
 
     void StartCountdownCycle (){
