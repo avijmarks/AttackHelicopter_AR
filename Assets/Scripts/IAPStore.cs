@@ -37,6 +37,7 @@ public class IAPStore : MonoBehaviour, IStoreListener
         if (string.Equals(args.purchasedProduct.definition.id, fullVersion))
         {
             //do code here n stuff
+            SaveManager.instance.ChangeVersion_Full();
             Debug.Log("Full Version Purchased Successfully");
         }
         else

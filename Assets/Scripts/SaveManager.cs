@@ -47,8 +47,8 @@ public class SaveManager : MonoBehaviour
     ///<summary>
     ///saves to file that the player has the paid version of the app and makes appropriate adjustments in game via SetAppVersion()
     ///</summary>
-    public void ChangeVersion_Full(string key){
-        PlayerPrefs.SetString(key, "True");
+    public void ChangeVersion_Full(){
+        PlayerPrefs.SetString(FullAppVersion_Key, "True");
         PlayerPrefs.Save();
         SetGameVersion();
     }
