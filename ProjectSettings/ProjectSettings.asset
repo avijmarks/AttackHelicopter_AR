@@ -118,7 +118,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: .95
+  bundleVersion: 1.0
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -155,7 +155,7 @@ PlayerSettings:
   applicationIdentifier:
     iOS: com.AviMarks.DesktopHelicopter
   buildNumber:
-    iOS: .95
+    iOS: 1.0
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 16
   AndroidTargetSdkVersion: 0
@@ -263,7 +263,7 @@ PlayerSettings:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 072df5431d28146488fab220ecde5132, type: 3}
+      m_Icon: {fileID: 2800000, guid: d7e18d174203d42dbac5e47b7dd6858f, type: 3}
       m_Width: 128
       m_Height: 128
       m_Kind: 0
