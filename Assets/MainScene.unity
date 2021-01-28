@@ -1045,7 +1045,7 @@ MonoBehaviour:
   m_Direction: 0
   m_MinValue: 10
   m_MaxValue: 100
-  m_WholeNumbers: 0
+  m_WholeNumbers: 1
   m_Value: 20
   m_OnValueChanged:
     m_PersistentCalls:
@@ -10155,10 +10155,10 @@ MonoBehaviour:
   maxDistance: 100
   verticalPointDistance: 0.35
   remotePointMoveSpeed: 0.25
-  horizontalSpeed: 23
-  verticalSpeed: 26
-  rollSpeed: 0.19
-  rollCutoff: 12
+  horizontalSpeed: 48
+  verticalSpeed: 50
+  rollSpeed: 0.23
+  rollCutoff: 20
   rotationSpeed: 0.05
   useTestMovePoint: 0
   useHeliCompare: 0
@@ -12500,7 +12500,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d97dadb37eb94093a0d7ef4ec36fc3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  devSettingsEnabled: 1
+  devSettingsEnabled: 0
   environmentGenEnabled: 1
   devSettingsButton: {fileID: 377832692}
   devSettingsPanel: {fileID: 1164439115}
