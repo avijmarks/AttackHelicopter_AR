@@ -32,6 +32,11 @@ public class PlayerSettings : MonoBehaviour
         InitializeUI();
     }
 
+    private void FixedUpdate()
+    {
+        if (devSettingsEnabled == true) GameManager.instance.paidVersion = true; 
+    }
+
     void InitializeUI(){
         //initializes UI graphics based on saved/current settings
         ChangeFlightModeUI();

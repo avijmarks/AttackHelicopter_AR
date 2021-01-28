@@ -1043,10 +1043,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 784184978}
   m_HandleRect: {fileID: 464971109}
   m_Direction: 0
-  m_MinValue: 10
-  m_MaxValue: 100
-  m_WholeNumbers: 1
-  m_Value: 50
+  m_MinValue: 0
+  m_MaxValue: 10
+  m_WholeNumbers: 0
+  m_Value: 20
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -1530,7 +1530,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &377832693
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10007,7 +10007,7 @@ GameObject:
   - component: {fileID: 1629576081}
   - component: {fileID: 1629576080}
   m_Layer: 0
-  m_Name: md500
+  m_Name: HELICOPTER
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12500,7 +12500,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d97dadb37eb94093a0d7ef4ec36fc3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  devSettingsEnabled: 0
+  devSettingsEnabled: 1
   environmentGenEnabled: 1
   devSettingsButton: {fileID: 377832692}
   devSettingsPanel: {fileID: 1164439115}
