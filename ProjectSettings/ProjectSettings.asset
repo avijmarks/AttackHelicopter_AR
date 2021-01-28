@@ -319,7 +319,8 @@ PlayerSettings:
   enableInternalProfiler: 0
   logObjCUncaughtExceptions: 1
   enableCrashReportAPI: 0
-  cameraUsageDescription: This is my usage description
+  cameraUsageDescription: Camera access is needed in order to view your environment
+    in Augmented Reality!
   locationUsageDescription: 
   microphoneUsageDescription: 
   switchNetLibKey: 
