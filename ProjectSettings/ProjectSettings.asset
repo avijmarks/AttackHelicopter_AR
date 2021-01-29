@@ -230,7 +230,7 @@ PlayerSettings:
   metalEditorSupport: 1
   metalAPIValidation: 1
   iOSRenderExtraFrameOnPause: 0
-  appleDeveloperTeamID: 
+  appleDeveloperTeamID: MYJM3SMZBF
   iOSManualSigningProvisioningProfileID: 
   tvOSManualSigningProvisioningProfileID: 
   iOSManualSigningProvisioningProfileType: 0
@@ -320,7 +320,7 @@ PlayerSettings:
   logObjCUncaughtExceptions: 1
   enableCrashReportAPI: 0
   cameraUsageDescription: Camera access is needed in order to view your environment
-    in Augmented Reality!
+    in Augmented Reality
   locationUsageDescription: 
   microphoneUsageDescription: 
   switchNetLibKey: 
