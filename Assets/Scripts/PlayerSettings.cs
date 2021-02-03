@@ -30,6 +30,9 @@ public class PlayerSettings : MonoBehaviour
     public Image soundOffSprite;
     public Image environmentDisabledSprite;
 
+
+    //variables for switching between screen orientations
+
     [System.Serializable]
     public class OrientationReferences
     {
@@ -45,20 +48,61 @@ public class PlayerSettings : MonoBehaviour
     }
 
    
-public OrientationReferences portrait = new OrientationReferences();
+    public OrientationReferences portrait = new OrientationReferences();
     public OrientationReferences landscape = new OrientationReferences();
-    
-    
-    
+    private OrientationReferences currentOrientation;
+    private bool wasPreviousPortrait;
+    bool isCurrentModePortrait = true;
+
+
     void Start()
     {
+        
+        if (Input.deviceOrientation == DeviceOrientation.Portrait || Input.deviceOrientation == DeviceOrientation.PortraitUpsideDown)
+        {
+            currentOrientation = portrait; 
+        }
+        else if (Input.deviceOrientation == DeviceOrientation.LandscapeLeft || Input.deviceOrientation == DeviceOrientation.LandscapeRight)
+        {
+            currentOrientation = landscape; 
+        }
+        else if (Input.deviceOrientation == DeviceOrientation.Unknown)
+        {
+            Debug.LogError("Device Orientation Unknown");
+        }
+
         InitializeUI();
-        Debug.LogError(remoteHeliMove.ToString());
     }
+
 
     private void FixedUpdate()
     {
-        if (devSettingsEnabled == true) GameManager.instance.paidVersion = true; 
+        if (devSettingsEnabled == true) GameManager.instance.paidVersion = true;
+
+        
+        if (Input.deviceOrientation == DeviceOrientation.Portrait || Input.deviceOrientation == DeviceOrientation.PortraitUpsideDown)
+        {
+            currentOrientation = portrait;
+            isCurrentModePortrait = true;
+           
+
+            
+        }
+        else if (Input.deviceOrientation == DeviceOrientation.LandscapeLeft || Input.deviceOrientation == DeviceOrientation.LandscapeRight)
+        {
+            currentOrientation = landscape;
+            isCurrentModePortrait = false;
+
+
+    
+        }
+
+        if (isCurrentModePortrait != wasPreviousPortrait)
+        {
+            //screen orientation change detected here
+            InitializeUI();
+        }
+        wasPreviousPortrait = isCurrentModePortrait; 
     }
 
     void InitializeUI(){
