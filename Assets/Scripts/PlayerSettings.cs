@@ -65,7 +65,8 @@ public class PlayerSettings : MonoBehaviour
         }
         else if (Input.deviceOrientation == DeviceOrientation.Unknown)
         {
-            Debug.LogError("Device Orientation Unknown");
+            Debug.LogError("Device Orientation Unknown -- defaulting to portrait");
+            currentOrientation = portrait; 
         }
 
         InitializeUI();
@@ -81,17 +82,16 @@ public class PlayerSettings : MonoBehaviour
         {
             currentOrientation = portrait;
             isCurrentModePortrait = true;
-           
-
-            
         }
         else if (Input.deviceOrientation == DeviceOrientation.LandscapeLeft || Input.deviceOrientation == DeviceOrientation.LandscapeRight)
         {
             currentOrientation = landscape;
             isCurrentModePortrait = false;
-
-
-    
+        }
+        else
+        {
+            Debug.LogWarning("Device Orientation information unavailable, defaulting to portrait mode");
+            currentOrientation = portrait; 
         }
 
         if (isCurrentModePortrait != wasPreviousPortrait)
@@ -112,6 +112,7 @@ public class PlayerSettings : MonoBehaviour
 
 
     public void OpenSettings (){
+        this.gameObject.SetActive(true);
         AudioManager.instance.ClickSound();
         currentOrientation.panel.gameObject.SetActive(true);
         currentOrientation.devSettingsButton.SetActive(devSettingsEnabled);
@@ -120,6 +121,7 @@ public class PlayerSettings : MonoBehaviour
     public void CloseSettings(){
         AudioManager.instance.ClickSound();
         currentOrientation.panel.gameObject.SetActive(false);
+        this.gameObject.SetActive(false);
     }
 
     //set stand in bool for flight mode
