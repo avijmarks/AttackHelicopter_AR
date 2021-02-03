@@ -18,17 +18,14 @@ public class PlayerSettings : MonoBehaviour
     public HeliMoveModeManager heliMoveManager;
 
     //stuff that needs to be put in a struct/class for portrait/landscape alternation
-
-
-
-    public GameObject devSettingsButton;
-    public Button attachedModeButton;
-    public Button remoteControlButton;
-    public Text attachedButtonText;
-    public Text remoteButtonText;
-    public Button soundEffectButton; 
-    public Image soundOffSprite;
-    public Image environmentDisabledSprite;
+    //public GameObject devSettingsButton;
+    //public Button attachedModeButton;
+    //public Button remoteControlButton;
+    //public Text attachedButtonText;
+    //public Text remoteButtonText;
+    //public Button soundEffectButton; 
+    //public Image soundOffSprite;
+    //public Image environmentDisabledSprite;
 
 
     //variables for switching between screen orientations
@@ -99,7 +96,7 @@ public class PlayerSettings : MonoBehaviour
 
         if (isCurrentModePortrait != wasPreviousPortrait)
         {
-            //screen orientation change detected here
+            //screen orientation change detected here -- initializing appropriate settings panel
             InitializeUI();
         }
         wasPreviousPortrait = isCurrentModePortrait; 
@@ -116,13 +113,13 @@ public class PlayerSettings : MonoBehaviour
 
     public void OpenSettings (){
         AudioManager.instance.ClickSound();
-        this.gameObject.SetActive(true);
-        devSettingsButton.SetActive(devSettingsEnabled);
+        currentOrientation.panel.gameObject.SetActive(true);
+        currentOrientation.devSettingsButton.SetActive(devSettingsEnabled);
     }
 
     public void CloseSettings(){
         AudioManager.instance.ClickSound();
-        this.gameObject.SetActive(false);
+        currentOrientation.panel.gameObject.SetActive(false);
     }
 
     //set stand in bool for flight mode
@@ -139,17 +136,17 @@ public class PlayerSettings : MonoBehaviour
     void ChangeFlightModeUI(){
         //changes color and text color of flightmode ui buttons
         if (!heliMoveManager.useRemoteMode){
-            attachedModeButton.interactable = false;
-            attachedButtonText.color = Color.white;
+            currentOrientation.attachedModeButton.interactable = false;
+            currentOrientation.attachedButtonText.color = Color.white;
 
-            remoteControlButton.interactable = true;
-            remoteButtonText.color = remoteControlButton.colors.disabledColor;
+            currentOrientation.remoteControlButton.interactable = true;
+            currentOrientation.remoteButtonText.color = currentOrientation.remoteControlButton.colors.disabledColor;
         } else if (heliMoveManager.useRemoteMode){
-            remoteControlButton.interactable = false;
-            remoteButtonText.color = Color.white;
+            currentOrientation.remoteControlButton.interactable = false;
+            currentOrientation.remoteButtonText.color = Color.white;
 
-            attachedModeButton.interactable = true;
-            attachedButtonText.color = attachedModeButton.colors.disabledColor;
+            currentOrientation.attachedModeButton.interactable = true;
+            currentOrientation.attachedButtonText.color = currentOrientation.attachedModeButton.colors.disabledColor;
         }
     }
 
@@ -166,7 +163,7 @@ public class PlayerSettings : MonoBehaviour
         AudioManager.instance.ClickSound();
     }
     void ChangeSoundEffectSettingsUI(){
-        soundOffSprite.enabled = soundEnabled ? false : true;
+        currentOrientation.soundOffSprite.enabled = soundEnabled ? false : true;
     }
 
     public void ChangeEnvironmentEnabled(){
@@ -186,7 +183,7 @@ public class PlayerSettings : MonoBehaviour
         ChangeEnvironmentUI();
     }
     void ChangeEnvironmentUI(){
-        environmentDisabledSprite.enabled = environmentGenEnabled ? false : true;
+        currentOrientation.environmentDisabledSprite.enabled = environmentGenEnabled ? false : true;
     }
 
     public void ShowCredits(){
