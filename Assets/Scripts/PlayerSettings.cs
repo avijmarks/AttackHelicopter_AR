@@ -6,14 +6,22 @@ using UnityEngine.XR.ARFoundation;
 
 public class PlayerSettings : MonoBehaviour
 {
-    //true == remote control
+    //saved settings here:
     public bool devSettingsEnabled = false;
     public bool environmentGenEnabled = true;
-    public GameObject devSettingsButton;
+    public bool soundEnabled = true;
+
+    //orientation independent references here
+    public ARSession aRSession;
+    public RemoteHeliMove remoteHeliMove;
     public GameObject devSettingsPanel;
     public HeliMoveModeManager heliMoveManager;
-    public bool standInForFlightBool = false;
-    public bool soundEnabled = true;
+
+    //stuff that needs to be put in a struct/class for portrait/landscape alternation
+
+
+
+    public GameObject devSettingsButton;
     public Button attachedModeButton;
     public Button remoteControlButton;
     public Text attachedButtonText;
@@ -21,15 +29,31 @@ public class PlayerSettings : MonoBehaviour
     public Button soundEffectButton; 
     public Image soundOffSprite;
     public Image environmentDisabledSprite;
-    
-    public ARSession aRSession;
-    public RemoteHeliMove remoteHeliMove;
+
+    [System.Serializable]
+    public class OrientationReferences
+    {
+        public GameObject panel; 
+        public Button attachedModeButton;
+        public Button remoteControlButton;
+        public Text attachedButtonText;
+        public Text remoteButtonText;
+        public Button soundEffectButton;
+        public Image soundOffSprite;
+        public Image environmentDisabledSprite;
+        public GameObject devSettingsButton;
+    }
+
+   
+public OrientationReferences portrait = new OrientationReferences();
+    public OrientationReferences landscape = new OrientationReferences();
     
     
     
     void Start()
     {
         InitializeUI();
+        Debug.LogError(remoteHeliMove.ToString());
     }
 
     private void FixedUpdate()
