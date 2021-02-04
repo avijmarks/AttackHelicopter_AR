@@ -55,7 +55,7 @@ public class PlayerSettings : MonoBehaviour
 
     void Start()
     {
-        
+
         //if (Input.deviceOrientation == DeviceOrientation.Portrait || Input.deviceOrientation == DeviceOrientation.PortraitUpsideDown)
         //{
         //    currentOrientationLayout = portrait;
@@ -69,6 +69,15 @@ public class PlayerSettings : MonoBehaviour
         //    Debug.LogError("Device Orientation Unknown -- defaulting to portrait");
         //    currentOrientationLayout = portrait; 
         //}
+
+        if (UIOrientationManager.instance.currentOrientation == UIOrientationManager.Orientation.Landscape)
+        {
+            currentOrientationLayout = landscape;
+        }
+        else if (UIOrientationManager.instance.currentOrientation == UIOrientationManager.Orientation.Portrait)
+        {
+            currentOrientationLayout = portrait;
+        }
 
         if (devSettingsEnabled == true) GameManager.instance.paidVersion = true;
 
@@ -127,6 +136,7 @@ public class PlayerSettings : MonoBehaviour
 
         if (areSettingsOpen) currentOrientationLayout.panel.gameObject.SetActive(true);
         InitializeUI();
+        Debug.LogError("Switched to Landscape");
     }
 
     void SwitchToPortraitLayout ()
@@ -136,6 +146,7 @@ public class PlayerSettings : MonoBehaviour
 
         if (areSettingsOpen) currentOrientationLayout.panel.gameObject.SetActive(true);
         InitializeUI();
+        Debug.LogError("Switched To Portrait Layout");
     }
 
 

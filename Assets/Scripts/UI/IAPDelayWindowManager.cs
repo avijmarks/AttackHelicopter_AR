@@ -30,11 +30,36 @@ public class IAPDelayWindowManager : MonoBehaviour
     [SerializeField]
     protected GameObject playerSettings;
 
+    [System.Serializable]
+    public class OrientationLayout
+    {
+        public Text unpaidWaitCountdownText;
+        public GameObject unpaidWaitPanel;
+    }
+
+    public OrientationLayout landscape = new OrientationLayout();
+    public OrientationLayout portrait = new OrientationLayout();
+    private OrientationLayout currentOrientationLayout;
+
+    public void Start()
+    {
+        if (UIOrientationManager.instance.currentOrientation == UIOrientationManager.Orientation.Landscape)
+        {
+            currentOrientationLayout = landscape;
+        }
+        else if (UIOrientationManager.instance.currentOrientation == UIOrientationManager.Orientation.Portrait)
+        {
+            currentOrientationLayout = portrait;
+        }
+
+        UIOrientationManager.instance.OnSwitchedToPortrait += SwitchToPortraitLayout;
+        UIOrientationManager.instance.OnSwitchedToLandscape += SwitchToLandscapeLayout;
+    }
 
     //ALL THIS LOGIC FUNCTIONS AS A BIG LOOP THAT RUNS 2 COROUTINES(ONE FOR BANNER ONE FOR PANEL COUNTDOWNS)
     //CONSTANTLY CHECKS PAID VERSION BOOLEAN IN GAMEMANAGER.CS AND CAN STOP ANY TIME THATS CHANGE (CHECK IN UPDATE)
     //CAN CHANGE INITIAL BANNER COUNTDOWN, THE NORMAL COUNTDOWN, AND THE PANEL DISPLAY COUNTDOWN IN VARIABLES ABOVE
-    
+
     void Update()
     {
         if (GameManager.instance.paidVersion == true){
@@ -87,6 +112,16 @@ public class IAPDelayWindowManager : MonoBehaviour
     void ShowUnpaidPanel()
     {
         panelCountDownActive = true;
+
+        if (UIOrientationManager.instance.currentOrientation == UIOrientationManager.Orientation.Landscape)
+        {
+            currentOrientationLayout = landscape;
+        }
+        else if (UIOrientationManager.instance.currentOrientation == UIOrientationManager.Orientation.Portrait)
+        {
+            currentOrientationLayout = portrait;
+        }
+
         coroutineToStart = IWaitPanelCountdown(panelDisplayTime);
         StartCoroutine(coroutineToStart);
         Debug.Log("when is this called");
@@ -94,17 +129,35 @@ public class IAPDelayWindowManager : MonoBehaviour
 
     IEnumerator IWaitPanelCountdown (float countTime)
     {
-        unpaidWaitPanel.SetActive(true);
+        currentOrientationLayout.unpaidWaitPanel.SetActive(true);
         float time = countTime;
         string currentTimeString;
         while (time > 0){
             float timePassed = playerSettings.activeSelf ? 0f : Time.deltaTime;
             time -= timePassed;
             currentTimeString = Mathf.RoundToInt(time).ToString();
-            unpaidWaitCountdownText.text = currentTimeString;
+            currentOrientationLayout.unpaidWaitCountdownText.text = currentTimeString;
             yield return null;
         }
         panelCountDownActive = false;
         unpaidWaitPanel.SetActive(false);
+    }
+
+    void SwitchToLandscapeLayout()
+    {
+        portrait.unpaidWaitPanel.gameObject.SetActive(false);
+        currentOrientationLayout = landscape;
+
+        if (panelCountDownActive) currentOrientationLayout.unpaidWaitPanel.gameObject.SetActive(true);
+        Debug.LogError("Switched to Landscape");
+    }
+
+    void SwitchToPortraitLayout()
+    {
+        landscape.unpaidWaitPanel.gameObject.SetActive(false);
+        currentOrientationLayout = portrait;
+
+        if (panelCountDownActive) currentOrientationLayout.unpaidWaitPanel.gameObject.SetActive(true);
+        Debug.LogError("Switched To Portrait Layout");
     }
 }

@@ -17,7 +17,7 @@ public class UIOrientationManager : MonoBehaviour
     private Orientation previousOrientation = Orientation.Portrait;
 
 
-    private void Start()
+    private void Awake()
     {
         //singleton code :)
         if (instance == null)
@@ -30,16 +30,27 @@ public class UIOrientationManager : MonoBehaviour
         }
 
         if (Input.deviceOrientation == DeviceOrientation.Unknown) Debug.LogError("Device orientation unknown: defaulting to portrait");
+
+        if (Input.deviceOrientation == DeviceOrientation.LandscapeLeft || Input.deviceOrientation == DeviceOrientation.LandscapeRight)
+        {
+            currentOrientation = Orientation.Landscape;
+        }
+        else
+        {
+            currentOrientation = Orientation.Portrait;
+        }
     }
 
-    void SwitchedToLandscape()
+    public void SwitchedToLandscape()
     {
-        OnSwitchedToLandscape();
+        instance.OnSwitchedToLandscape();
+        Debug.LogError("Landscape Switch Callback");
     }
 
     void SwitchedToPortrait()
     {
-        OnSwitchedToPortrait();
+        instance.OnSwitchedToPortrait();
+        Debug.LogError("Landscape Switch Callback");
     }
 
     private void FixedUpdate()
@@ -71,6 +82,7 @@ public class UIOrientationManager : MonoBehaviour
             currentOrientation = Orientation.Portrait; 
         }
 
-        previousOrientation = currentOrientation; 
+        previousOrientation = currentOrientation;
+        Debug.LogError(currentOrientation.ToString());
     }
 }
