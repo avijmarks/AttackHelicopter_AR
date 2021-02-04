@@ -31,7 +31,7 @@ public class PlayerSettings : MonoBehaviour
     //variables for switching between screen orientations
 
     [System.Serializable]
-    public class OrientationReferences
+    public class OrientationLayout
     {
         public GameObject panel; 
         public Button attachedModeButton;
@@ -45,9 +45,9 @@ public class PlayerSettings : MonoBehaviour
     }
 
    
-    public OrientationReferences portrait = new OrientationReferences();
-    public OrientationReferences landscape = new OrientationReferences();
-    private OrientationReferences currentOrientation;
+    public OrientationLayout portrait = new OrientationLayout();
+    public OrientationLayout landscape = new OrientationLayout();
+    private OrientationLayout currentOrientationLayout;
     private bool wasPreviousPortrait;
     bool isCurrentModePortrait = true;
     bool areSettingsOpen = false; 
@@ -56,69 +56,88 @@ public class PlayerSettings : MonoBehaviour
     void Start()
     {
         
-        if (Input.deviceOrientation == DeviceOrientation.Portrait || Input.deviceOrientation == DeviceOrientation.PortraitUpsideDown)
-        {
-            currentOrientation = portrait;
-        }
-        else if (Input.deviceOrientation == DeviceOrientation.LandscapeLeft || Input.deviceOrientation == DeviceOrientation.LandscapeRight)
-        {
-            currentOrientation = landscape; 
-        }
-        else if (Input.deviceOrientation == DeviceOrientation.Unknown)
-        {
-            Debug.LogError("Device Orientation Unknown -- defaulting to portrait");
-            currentOrientation = portrait; 
-        }
+        //if (Input.deviceOrientation == DeviceOrientation.Portrait || Input.deviceOrientation == DeviceOrientation.PortraitUpsideDown)
+        //{
+        //    currentOrientationLayout = portrait;
+        //}
+        //else if (Input.deviceOrientation == DeviceOrientation.LandscapeLeft || Input.deviceOrientation == DeviceOrientation.LandscapeRight)
+        //{
+        //    currentOrientationLayout = landscape; 
+        //}
+        //else if (Input.deviceOrientation == DeviceOrientation.Unknown)
+        //{
+        //    Debug.LogError("Device Orientation Unknown -- defaulting to portrait");
+        //    currentOrientationLayout = portrait; 
+        //}
 
         if (devSettingsEnabled == true) GameManager.instance.paidVersion = true;
 
+        UIOrientationManager.instance.OnSwitchedToPortrait += SwitchToPortraitLayout;
+        UIOrientationManager.instance.OnSwitchedToLandscape += SwitchToLandscapeLayout;
         InitializeUI();
     }
 
 
     private void FixedUpdate()
     {
-        
+        //if (Input.deviceOrientation == DeviceOrientation.Portrait || Input.deviceOrientation == DeviceOrientation.PortraitUpsideDown)
+        //{
+        //    isCurrentModePortrait = true;
+        //    currentOrientationLayout = portrait;
 
-        
-        if (Input.deviceOrientation == DeviceOrientation.Portrait || Input.deviceOrientation == DeviceOrientation.PortraitUpsideDown)
-        {
-            isCurrentModePortrait = true;
-            currentOrientation = portrait;
+        //    if (areSettingsOpen == true && isCurrentModePortrait != wasPreviousPortrait)
+        //    {
+        //        landscape.panel.gameObject.SetActive(false);
+        //        portrait.panel.gameObject.SetActive(true);
+        //    }
 
-            if (areSettingsOpen == true && isCurrentModePortrait != wasPreviousPortrait)
-            {
-                landscape.panel.gameObject.SetActive(false);
-                portrait.panel.gameObject.SetActive(true);
-            }
-
-        }
-        else if (Input.deviceOrientation == DeviceOrientation.LandscapeLeft || Input.deviceOrientation == DeviceOrientation.LandscapeRight)
-        {
+        //}
+        //else if (Input.deviceOrientation == DeviceOrientation.LandscapeLeft || Input.deviceOrientation == DeviceOrientation.LandscapeRight)
+        //{
             
-            isCurrentModePortrait = false;
-            currentOrientation = landscape;
+        //    isCurrentModePortrait = false;
+        //    currentOrientationLayout = landscape;
 
-            if (areSettingsOpen == true && isCurrentModePortrait != wasPreviousPortrait)
-            {
-                portrait.panel.gameObject.SetActive(false);
-                landscape.panel.gameObject.SetActive(true);
-            }
-        }
-        else
-        {
-            //Debug.LogWarning("Device Orientation information unavailable, defaulting to portrait mode");
-            currentOrientation = portrait; 
-        }
+        //    if (areSettingsOpen == true && isCurrentModePortrait != wasPreviousPortrait)
+        //    {
+        //        portrait.panel.gameObject.SetActive(false);
+        //        landscape.panel.gameObject.SetActive(true);
+        //    }
+        //}
+        //else
+        //{
+        //    //Debug.LogWarning("Device Orientation information unavailable, defaulting to portrait mode");
+        //    currentOrientationLayout = portrait; 
+        //}
 
-        if (isCurrentModePortrait != wasPreviousPortrait)
-        {
-            //screen orientation change detected here -- initializing appropriate settings panel
-            InitializeUI();
-        }
-        wasPreviousPortrait = isCurrentModePortrait;
-        //Debug.LogError(Input.deviceOrientation.ToString());
+        //if (isCurrentModePortrait != wasPreviousPortrait)
+        //{
+        //    //screen orientation change detected here -- initializing appropriate settings panel
+        //    InitializeUI();
+        //}
+        //wasPreviousPortrait = isCurrentModePortrait;
+        ////Debug.LogError(Input.deviceOrientation.ToString());
     }
+
+    //receives layout change events from UIOrientationManager
+    void SwitchToLandscapeLayout ()
+    {
+        portrait.panel.gameObject.SetActive(false);
+        currentOrientationLayout = landscape;
+
+        if (areSettingsOpen) currentOrientationLayout.panel.gameObject.SetActive(true);
+        InitializeUI();
+    }
+
+    void SwitchToPortraitLayout ()
+    {
+        landscape.panel.gameObject.SetActive(false);
+        currentOrientationLayout = portrait;
+
+        if (areSettingsOpen) currentOrientationLayout.panel.gameObject.SetActive(true);
+        InitializeUI();
+    }
+
 
     void InitializeUI(){
         //initializes UI graphics based on saved/current settings
@@ -132,14 +151,24 @@ public class PlayerSettings : MonoBehaviour
     public void OpenSettings (){
         //this.gameObject.SetActive(true);
         AudioManager.instance.ClickSound();
-        currentOrientation.panel.gameObject.SetActive(true);
-        currentOrientation.devSettingsButton.SetActive(devSettingsEnabled);
+
+        if (UIOrientationManager.instance.currentOrientation == UIOrientationManager.Orientation.Landscape)
+        {
+            currentOrientationLayout = landscape;
+        }
+        else if (UIOrientationManager.instance.currentOrientation == UIOrientationManager.Orientation.Portrait)
+        {
+            currentOrientationLayout = portrait; 
+        }
+
+        currentOrientationLayout.panel.gameObject.SetActive(true);
+        currentOrientationLayout.devSettingsButton.SetActive(devSettingsEnabled);
         areSettingsOpen = true;
     }
 
     public void CloseSettings(){
         AudioManager.instance.ClickSound();
-        currentOrientation.panel.gameObject.SetActive(false);
+        currentOrientationLayout.panel.gameObject.SetActive(false);
         areSettingsOpen = false; 
         //this.gameObject.SetActive(false);
     }
@@ -158,17 +187,17 @@ public class PlayerSettings : MonoBehaviour
     void ChangeFlightModeUI(){
         //changes color and text color of flightmode ui buttons
         if (!heliMoveManager.useRemoteMode){
-            currentOrientation.attachedModeButton.interactable = false;
-            currentOrientation.attachedButtonText.color = Color.white;
+            currentOrientationLayout.attachedModeButton.interactable = false;
+            currentOrientationLayout.attachedButtonText.color = Color.white;
 
-            currentOrientation.remoteControlButton.interactable = true;
-            currentOrientation.remoteButtonText.color = currentOrientation.remoteControlButton.colors.disabledColor;
+            currentOrientationLayout.remoteControlButton.interactable = true;
+            currentOrientationLayout.remoteButtonText.color = currentOrientationLayout.remoteControlButton.colors.disabledColor;
         } else if (heliMoveManager.useRemoteMode){
-            currentOrientation.remoteControlButton.interactable = false;
-            currentOrientation.remoteButtonText.color = Color.white;
+            currentOrientationLayout.remoteControlButton.interactable = false;
+            currentOrientationLayout.remoteButtonText.color = Color.white;
 
-            currentOrientation.attachedModeButton.interactable = true;
-            currentOrientation.attachedButtonText.color = currentOrientation.attachedModeButton.colors.disabledColor;
+            currentOrientationLayout.attachedModeButton.interactable = true;
+            currentOrientationLayout.attachedButtonText.color = currentOrientationLayout.attachedModeButton.colors.disabledColor;
         }
     }
 
@@ -185,7 +214,7 @@ public class PlayerSettings : MonoBehaviour
         AudioManager.instance.ClickSound();
     }
     void ChangeSoundEffectSettingsUI(){
-        currentOrientation.soundOffSprite.enabled = soundEnabled ? false : true;
+        currentOrientationLayout.soundOffSprite.enabled = soundEnabled ? false : true;
     }
 
     public void ChangeEnvironmentEnabled(){
@@ -205,7 +234,7 @@ public class PlayerSettings : MonoBehaviour
         ChangeEnvironmentUI();
     }
     void ChangeEnvironmentUI(){
-        currentOrientation.environmentDisabledSprite.enabled = environmentGenEnabled ? false : true;
+        currentOrientationLayout.environmentDisabledSprite.enabled = environmentGenEnabled ? false : true;
     }
 
     public void ShowCredits(){
