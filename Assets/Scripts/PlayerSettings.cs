@@ -50,6 +50,7 @@ public class PlayerSettings : MonoBehaviour
     private OrientationReferences currentOrientation;
     private bool wasPreviousPortrait;
     bool isCurrentModePortrait = true;
+    bool areSettingsOpen = false; 
 
 
     void Start()
@@ -57,7 +58,7 @@ public class PlayerSettings : MonoBehaviour
         
         if (Input.deviceOrientation == DeviceOrientation.Portrait || Input.deviceOrientation == DeviceOrientation.PortraitUpsideDown)
         {
-            currentOrientation = portrait; 
+            currentOrientation = portrait;
         }
         else if (Input.deviceOrientation == DeviceOrientation.LandscapeLeft || Input.deviceOrientation == DeviceOrientation.LandscapeRight)
         {
@@ -69,28 +70,44 @@ public class PlayerSettings : MonoBehaviour
             currentOrientation = portrait; 
         }
 
+        if (devSettingsEnabled == true) GameManager.instance.paidVersion = true;
+
         InitializeUI();
     }
 
 
     private void FixedUpdate()
     {
-        if (devSettingsEnabled == true) GameManager.instance.paidVersion = true;
+        
 
         
         if (Input.deviceOrientation == DeviceOrientation.Portrait || Input.deviceOrientation == DeviceOrientation.PortraitUpsideDown)
         {
-            currentOrientation = portrait;
             isCurrentModePortrait = true;
+            currentOrientation = portrait;
+
+            if (areSettingsOpen == true && isCurrentModePortrait != wasPreviousPortrait)
+            {
+                landscape.panel.gameObject.SetActive(false);
+                portrait.panel.gameObject.SetActive(true);
+            }
+
         }
         else if (Input.deviceOrientation == DeviceOrientation.LandscapeLeft || Input.deviceOrientation == DeviceOrientation.LandscapeRight)
         {
-            currentOrientation = landscape;
+            
             isCurrentModePortrait = false;
+            currentOrientation = landscape;
+
+            if (areSettingsOpen == true && isCurrentModePortrait != wasPreviousPortrait)
+            {
+                portrait.panel.gameObject.SetActive(false);
+                landscape.panel.gameObject.SetActive(true);
+            }
         }
         else
         {
-            Debug.LogWarning("Device Orientation information unavailable, defaulting to portrait mode");
+            //Debug.LogWarning("Device Orientation information unavailable, defaulting to portrait mode");
             currentOrientation = portrait; 
         }
 
@@ -99,7 +116,8 @@ public class PlayerSettings : MonoBehaviour
             //screen orientation change detected here -- initializing appropriate settings panel
             InitializeUI();
         }
-        wasPreviousPortrait = isCurrentModePortrait; 
+        wasPreviousPortrait = isCurrentModePortrait;
+        //Debug.LogError(Input.deviceOrientation.ToString());
     }
 
     void InitializeUI(){
@@ -112,16 +130,18 @@ public class PlayerSettings : MonoBehaviour
 
 
     public void OpenSettings (){
-        this.gameObject.SetActive(true);
+        //this.gameObject.SetActive(true);
         AudioManager.instance.ClickSound();
         currentOrientation.panel.gameObject.SetActive(true);
         currentOrientation.devSettingsButton.SetActive(devSettingsEnabled);
+        areSettingsOpen = true;
     }
 
     public void CloseSettings(){
         AudioManager.instance.ClickSound();
         currentOrientation.panel.gameObject.SetActive(false);
-        this.gameObject.SetActive(false);
+        areSettingsOpen = false; 
+        //this.gameObject.SetActive(false);
     }
 
     //set stand in bool for flight mode
