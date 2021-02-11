@@ -4,8 +4,11 @@ using UnityEngine;
 [System.Serializable]
 public class RemoteHeliMove : MonoBehaviour, IHeliMoveMode
 {
-    
-    public FixedJoystick joystick;
+
+    public FixedJoystick landscapeJoystick;
+    public FixedJoystick portraitJoystick;
+    FixedJoystick currentJoystick;
+
     GameObject moveHere;
     public MovePoint arMovePoint;
     public GameObject remoteMovePoint;
@@ -47,8 +50,10 @@ public class RemoteHeliMove : MonoBehaviour, IHeliMoveMode
     {
         //only here because of old syntax from helimove.cs
         moveHere = remoteMovePoint;
-        joystick.gameObject.SetActive(false);
-        
+        currentJoystick.gameObject.SetActive(false);
+
+        UIOrientationManager.instance.OnSwitchedToLandscape += SwitchToLandscapeLayout;
+        UIOrientationManager.instance.OnSwitchedToPortrait += SwitchToPortraitLayout;
     }
 
     public void ResetRemotePoint(){
@@ -58,7 +63,7 @@ public class RemoteHeliMove : MonoBehaviour, IHeliMoveMode
     }
 
     public void StartHeliMoveMode(){
-        joystick.gameObject.SetActive(true);
+        currentJoystick.gameObject.SetActive(true);
         arMovePoint.distanceToCamera = verticalPointDistance;
         ResetRemotePoint();
     }
@@ -72,15 +77,36 @@ public class RemoteHeliMove : MonoBehaviour, IHeliMoveMode
     }
 
     public void EndHeliMoveMode(){
-        joystick.gameObject.SetActive(false);
+        currentJoystick.gameObject.SetActive(false);
     }
 
+    public void SwitchToLandscapeLayout ()
+    {
+        currentJoystick = landscapeJoystick;
+
+        if (PlayerSettings.instance.heliMoveManager.useRemoteMode)
+        {
+            portraitJoystick.gameObject.SetActive(false);
+            landscapeJoystick.gameObject.SetActive(true);
+        }
+    }
+
+    public void SwitchToPortraitLayout()
+    {
+        currentJoystick = portraitJoystick;
+
+        if (PlayerSettings.instance.heliMoveManager.useRemoteMode)
+        {
+            landscapeJoystick.gameObject.SetActive(false);
+            portraitJoystick.gameObject.SetActive(true);
+        }
+    }
    
     void UpdateRemotePointLocation (){
         //move remotepoint based on joystick (limited by max distance)
         //distance checks needed
         float relativeMoveSpeed = remotePointMoveSpeed * Time.deltaTime;
-        Vector3 localMovePosition = new Vector3(joystick.Horizontal * relativeMoveSpeed, 0f, joystick.Vertical * relativeMoveSpeed);
+        Vector3 localMovePosition = new Vector3(currentJoystick.Horizontal * relativeMoveSpeed, 0f, currentJoystick.Vertical * relativeMoveSpeed);
         Vector3 moveInDirection = arCam.transform.TransformVector(localMovePosition).normalized;
         
         //checks if new movement would exceed max distance and returns vector3.zero if it will

@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class IAPDelayWindowManager : MonoBehaviour
 {   
-    [SerializeField]
-    protected GameObject unpaidBanner;
-    [SerializeField]
-    protected Text countDownText;
+    //[SerializeField]
+    //protected GameObject unpaidBanner;
+    //[SerializeField]
+    //protected Text countDownText;
     [SerializeField]
     protected GameObject unpaidWaitPanel;
     [SerializeField]
@@ -33,14 +33,20 @@ public class IAPDelayWindowManager : MonoBehaviour
     [System.Serializable]
     public class OrientationLayout
     {
+        //for wait panel
         public Text unpaidWaitCountdownText;
         public GameObject unpaidWaitPanel;
+
+        //for unpaid banner
+        public GameObject unpaidBanner;
+        public Text unpaidBannerCountDownText;
     }
 
     public OrientationLayout landscape = new OrientationLayout();
     public OrientationLayout portrait = new OrientationLayout();
     private OrientationLayout currentOrientationLayout;
 
+    
     public void Start()
     {
         if (UIOrientationManager.instance.currentOrientation == UIOrientationManager.Orientation.Landscape)
@@ -70,18 +76,19 @@ public class IAPDelayWindowManager : MonoBehaviour
         if (!bannerCountDownActive && !panelCountDownActive && !GameManager.instance.paidVersion){
             StartCountdownCycle();
         }
-
-        
     }
 
     void DisableAllIAPPrompts(){
-        unpaidBanner.SetActive(false);
+        currentOrientationLayout.unpaidBanner.SetActive(false);
         unpaidWaitPanel.SetActive(false);
         restoreButton.SetActive(false);
         fullVersionButton.SetActive(false);
+        UIOrientationManager.instance.OnSwitchedToLandscape -= SwitchToLandscapeLayout;
+        UIOrientationManager.instance.OnSwitchedToPortrait -= SwitchToPortraitLayout;
     }
 
     void StartCountdownCycle (){
+        currentOrientationLayout.unpaidBanner.SetActive(true);
         bannerCountDownActive = true;
         float bannerCountTime = promptDisplayCount > 0 ? normalBannerCountTime : initialBannerCountTime;
         promptDisplayCount += 1;
@@ -102,7 +109,7 @@ public class IAPDelayWindowManager : MonoBehaviour
             float timePassed = playerSettings.activeSelf ? 0f : Time.deltaTime;
             time -= timePassed;
             currentTimeString = Mathf.RoundToInt(time).ToString();
-            countDownText.text = currentTimeString;
+            currentOrientationLayout.unpaidBannerCountDownText.text = currentTimeString;
             yield return null;
         }
         bannerCountDownActive = false;
@@ -140,24 +147,48 @@ public class IAPDelayWindowManager : MonoBehaviour
             yield return null;
         }
         panelCountDownActive = false;
-        unpaidWaitPanel.SetActive(false);
+        currentOrientationLayout.unpaidWaitPanel.SetActive(false);
     }
 
     void SwitchToLandscapeLayout()
     {
-        portrait.unpaidWaitPanel.gameObject.SetActive(false);
         currentOrientationLayout = landscape;
 
-        if (panelCountDownActive) currentOrientationLayout.unpaidWaitPanel.gameObject.SetActive(true);
-        Debug.LogError("Switched to Landscape");
+        if (panelCountDownActive)
+        {
+            landscape.unpaidWaitPanel.gameObject.SetActive(true);
+            portrait.unpaidWaitPanel.gameObject.SetActive(false);
+        }
+
+        if (bannerCountDownActive)
+        {
+            landscape.unpaidBanner.gameObject.SetActive(true);
+            landscape.unpaidBannerCountDownText.text = portrait.unpaidBannerCountDownText.text;
+            portrait.unpaidBanner.gameObject.SetActive(false);
+            
+        }
+
+            
+        Debug.LogError("Switched to Landscape -- IAP UI");
     }
 
     void SwitchToPortraitLayout()
     {
-        landscape.unpaidWaitPanel.gameObject.SetActive(false);
         currentOrientationLayout = portrait;
 
-        if (panelCountDownActive) currentOrientationLayout.unpaidWaitPanel.gameObject.SetActive(true);
-        Debug.LogError("Switched To Portrait Layout");
+        if (panelCountDownActive)
+        {
+            portrait.unpaidWaitPanel.gameObject.SetActive(true);
+            landscape.unpaidWaitPanel.gameObject.SetActive(false);
+        }
+
+        if(bannerCountDownActive)
+        {
+            portrait.unpaidBanner.SetActive(true);
+            portrait.unpaidBannerCountDownText.text = landscape.unpaidBannerCountDownText.text;
+            landscape.unpaidBanner.SetActive(false);
+        }
+
+        Debug.LogError("Switched To Portrait Layout -- IAP UI");
     }
 }

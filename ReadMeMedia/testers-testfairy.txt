@@ -1,0 +1,5 @@
+Device ID	Device Name	Device Platform
+d9f55e87180e5dd808f6ea1f6f99a8417d2caa56	avijmarks@g.ucla.edu iPhone 6s Plus	ios
+00008027-0008289e11f2002e	alan@midwestdevelopment.net iPad Pro	ios
+00008030-0019246a1a50802e	alan@midwestdevelopment.net iPhone 11 Pro	ios
+d64585bed497b82e39b3eb18e1702e79fcc6e5dc	nikoleparent@gmail.com iPhone X	ios

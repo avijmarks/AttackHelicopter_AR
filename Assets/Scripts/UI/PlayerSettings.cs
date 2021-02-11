@@ -6,6 +6,7 @@ using UnityEngine.XR.ARFoundation;
 
 public class PlayerSettings : MonoBehaviour
 {
+    public static PlayerSettings instance; 
     //saved settings here:
     public bool devSettingsEnabled = false;
     public bool environmentGenEnabled = true;
@@ -16,16 +17,6 @@ public class PlayerSettings : MonoBehaviour
     public RemoteHeliMove remoteHeliMove;
     public GameObject devSettingsPanel;
     public HeliMoveModeManager heliMoveManager;
-
-    //stuff that needs to be put in a struct/class for portrait/landscape alternation
-    //public GameObject devSettingsButton;
-    //public Button attachedModeButton;
-    //public Button remoteControlButton;
-    //public Text attachedButtonText;
-    //public Text remoteButtonText;
-    //public Button soundEffectButton; 
-    //public Image soundOffSprite;
-    //public Image environmentDisabledSprite;
 
 
     //variables for switching between screen orientations
@@ -50,26 +41,28 @@ public class PlayerSettings : MonoBehaviour
     private OrientationLayout currentOrientationLayout;
     private bool wasPreviousPortrait;
     bool isCurrentModePortrait = true;
-    bool areSettingsOpen = false; 
+    bool areSettingsOpen = false;
 
+    //joystick orientation layouts
+    private FixedJoystick landscapeJoystick;
+    private FixedJoystick portraitJoystick;
+    public FixedJoystick currentJoystick;
+
+    private void Awake()
+    {
+        //singleton code :)
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
+    }
 
     void Start()
     {
-
-        //if (Input.deviceOrientation == DeviceOrientation.Portrait || Input.deviceOrientation == DeviceOrientation.PortraitUpsideDown)
-        //{
-        //    currentOrientationLayout = portrait;
-        //}
-        //else if (Input.deviceOrientation == DeviceOrientation.LandscapeLeft || Input.deviceOrientation == DeviceOrientation.LandscapeRight)
-        //{
-        //    currentOrientationLayout = landscape; 
-        //}
-        //else if (Input.deviceOrientation == DeviceOrientation.Unknown)
-        //{
-        //    Debug.LogError("Device Orientation Unknown -- defaulting to portrait");
-        //    currentOrientationLayout = portrait; 
-        //}
-
         if (UIOrientationManager.instance.currentOrientation == UIOrientationManager.Orientation.Landscape)
         {
             currentOrientationLayout = landscape;
@@ -84,48 +77,6 @@ public class PlayerSettings : MonoBehaviour
         UIOrientationManager.instance.OnSwitchedToPortrait += SwitchToPortraitLayout;
         UIOrientationManager.instance.OnSwitchedToLandscape += SwitchToLandscapeLayout;
         InitializeUI();
-    }
-
-
-    private void FixedUpdate()
-    {
-        //if (Input.deviceOrientation == DeviceOrientation.Portrait || Input.deviceOrientation == DeviceOrientation.PortraitUpsideDown)
-        //{
-        //    isCurrentModePortrait = true;
-        //    currentOrientationLayout = portrait;
-
-        //    if (areSettingsOpen == true && isCurrentModePortrait != wasPreviousPortrait)
-        //    {
-        //        landscape.panel.gameObject.SetActive(false);
-        //        portrait.panel.gameObject.SetActive(true);
-        //    }
-
-        //}
-        //else if (Input.deviceOrientation == DeviceOrientation.LandscapeLeft || Input.deviceOrientation == DeviceOrientation.LandscapeRight)
-        //{
-            
-        //    isCurrentModePortrait = false;
-        //    currentOrientationLayout = landscape;
-
-        //    if (areSettingsOpen == true && isCurrentModePortrait != wasPreviousPortrait)
-        //    {
-        //        portrait.panel.gameObject.SetActive(false);
-        //        landscape.panel.gameObject.SetActive(true);
-        //    }
-        //}
-        //else
-        //{
-        //    //Debug.LogWarning("Device Orientation information unavailable, defaulting to portrait mode");
-        //    currentOrientationLayout = portrait; 
-        //}
-
-        //if (isCurrentModePortrait != wasPreviousPortrait)
-        //{
-        //    //screen orientation change detected here -- initializing appropriate settings panel
-        //    InitializeUI();
-        //}
-        //wasPreviousPortrait = isCurrentModePortrait;
-        ////Debug.LogError(Input.deviceOrientation.ToString());
     }
 
     //receives layout change events from UIOrientationManager
