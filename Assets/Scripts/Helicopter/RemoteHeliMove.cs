@@ -50,7 +50,7 @@ public class RemoteHeliMove : MonoBehaviour, IHeliMoveMode
     {
         //only here because of old syntax from helimove.cs
         moveHere = remoteMovePoint;
-        currentJoystick.gameObject.SetActive(false);
+        //currentJoystick.gameObject.SetActive(false);
 
         UIOrientationManager.instance.OnSwitchedToLandscape += SwitchToLandscapeLayout;
         UIOrientationManager.instance.OnSwitchedToPortrait += SwitchToPortraitLayout;

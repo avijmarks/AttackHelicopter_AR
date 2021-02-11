@@ -27,9 +27,6 @@ public class IAPDelayWindowManager : MonoBehaviour
     float normalBannerCountTime = 60f;
     float panelDisplayTime = 10f;
 
-    [SerializeField]
-    protected GameObject playerSettings;
-
     [System.Serializable]
     public class OrientationLayout
     {
@@ -106,7 +103,7 @@ public class IAPDelayWindowManager : MonoBehaviour
         float time = countTime;
         string currentTimeString;
         while (time > 0){
-            float timePassed = playerSettings.activeSelf ? 0f : Time.deltaTime;
+            float timePassed = PlayerSettings.instance.areSettingsOpen ? 0f : Time.deltaTime;
             time -= timePassed;
             currentTimeString = Mathf.RoundToInt(time).ToString();
             currentOrientationLayout.unpaidBannerCountDownText.text = currentTimeString;
@@ -140,7 +137,7 @@ public class IAPDelayWindowManager : MonoBehaviour
         float time = countTime;
         string currentTimeString;
         while (time > 0){
-            float timePassed = playerSettings.activeSelf ? 0f : Time.deltaTime;
+            float timePassed = PlayerSettings.instance.areSettingsOpen ? 0f : Time.deltaTime;
             time -= timePassed;
             currentTimeString = Mathf.RoundToInt(time).ToString();
             currentOrientationLayout.unpaidWaitCountdownText.text = currentTimeString;

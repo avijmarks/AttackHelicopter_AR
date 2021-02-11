@@ -41,7 +41,8 @@ public class PlayerSettings : MonoBehaviour
     private OrientationLayout currentOrientationLayout;
     private bool wasPreviousPortrait;
     bool isCurrentModePortrait = true;
-    bool areSettingsOpen = false;
+    [HideInInspector]
+    public bool areSettingsOpen = false;
 
     //joystick orientation layouts
     private FixedJoystick landscapeJoystick;
