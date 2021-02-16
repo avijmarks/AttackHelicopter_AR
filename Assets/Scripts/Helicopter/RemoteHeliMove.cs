@@ -48,6 +48,14 @@ public class RemoteHeliMove : MonoBehaviour, IHeliMoveMode
     // Start is called before the first frame update
     void Start()
     {
+        if (UIOrientationManager.instance.currentOrientation == UIOrientationManager.Orientation.Landscape)
+        {
+            currentJoystick = landscapeJoystick;
+        }
+        else if (UIOrientationManager.instance.currentOrientation == UIOrientationManager.Orientation.Portrait)
+        {
+            currentJoystick = portraitJoystick;
+        }
         //only here because of old syntax from helimove.cs
         moveHere = remoteMovePoint;
         //currentJoystick.gameObject.SetActive(false);

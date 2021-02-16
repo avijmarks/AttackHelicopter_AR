@@ -8,7 +8,7 @@ public class HeliMoveModeManager : MonoBehaviour
     public IHeliMoveMode remoteHeliMove;
     IHeliMoveMode currentMode;
     IHeliMoveMode disabledMode;
-    //bool used to control which mode its in; true = remote mode (false/attached is default)
+    //bool used to control which mode its in; true = remote mode (remote/true is default & startup)
     public bool useRemoteMode = false;
 
     void Awake(){
