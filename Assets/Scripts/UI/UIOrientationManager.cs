@@ -83,6 +83,6 @@ public class UIOrientationManager : MonoBehaviour
         }
 
         previousOrientation = currentOrientation;
-        Debug.LogError(currentOrientation.ToString());
+        //Debug.LogError(currentOrientation.ToString());
     }
 }

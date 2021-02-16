@@ -113,6 +113,7 @@ public class PlayerSettings : MonoBehaviour
 
     public void OpenSettings (){
         //this.gameObject.SetActive(true);
+        Debug.LogError("OpenSettings() beginning of function");
         AudioManager.instance.ClickSound();
 
         if (UIOrientationManager.instance.currentOrientation == UIOrientationManager.Orientation.Landscape)
@@ -127,6 +128,7 @@ public class PlayerSettings : MonoBehaviour
         currentOrientationLayout.panel.gameObject.SetActive(true);
         currentOrientationLayout.devSettingsButton.SetActive(devSettingsEnabled);
         areSettingsOpen = true;
+        Debug.LogError("OpenSettings() called");
     }
 
     public void CloseSettings(){
