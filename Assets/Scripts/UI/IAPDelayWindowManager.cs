@@ -110,6 +110,7 @@ public class IAPDelayWindowManager : MonoBehaviour
             yield return null;
         }
         bannerCountDownActive = false;
+        currentOrientationLayout.unpaidBanner.SetActive(false);
         ShowUnpaidPanel();  
     }
 
