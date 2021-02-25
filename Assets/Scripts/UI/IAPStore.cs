@@ -5,6 +5,10 @@ using UnityEngine.Purchasing;
 
 public class IAPStore : MonoBehaviour, IStoreListener
 {
+
+    /// <summary>
+    /// DONT NEED TO USE THIS SCRIPT ANY MORE BECAUSE OF UNITY CODELESS IAP 
+    /// </summary>
     public static IAPStore instance;
     private static IStoreController storeController;
     private static IExtensionProvider extensionProvider;
