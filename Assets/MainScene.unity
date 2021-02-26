@@ -1712,6 +1712,9 @@ MonoBehaviour:
     soundOffSprite: {fileID: 321924333}
     environmentDisabledSprite: {fileID: 1530865839}
     devSettingsButton: {fileID: 377832692}
+    purchaseButton: {fileID: 1261247818}
+    restoreButton: {fileID: 507183457}
+    thankyouText: {fileID: 1000675712}
   landscape:
     panel: {fileID: 187316229}
     attachedModeButton: {fileID: 190542456}
@@ -1722,8 +1725,14 @@ MonoBehaviour:
     soundOffSprite: {fileID: 598795491}
     environmentDisabledSprite: {fileID: 1583307786}
     devSettingsButton: {fileID: 1253037660}
+    purchaseButton: {fileID: 290266273}
+    restoreButton: {fileID: 1596111710}
+    thankyouText: {fileID: 397093958}
   areSettingsOpen: 0
   currentJoystick: {fileID: 0}
+  purchaseButton: []
+  restoreButton: []
+  thankyouText: []
 --- !u!1 &160257029
 GameObject:
   m_ObjectHideFlags: 0
@@ -2313,7 +2322,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &187316230
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2338,6 +2347,7 @@ RectTransform:
   - {fileID: 1596111709}
   - {fileID: 290266271}
   - {fileID: 962659953}
+  - {fileID: 397093960}
   m_Father: {fileID: 146607631}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3776,8 +3786,8 @@ GameObject:
   - component: {fileID: 290266271}
   - component: {fileID: 290266275}
   - component: {fileID: 290266274}
-  - component: {fileID: 290266273}
   - component: {fileID: 290266272}
+  - component: {fileID: 290266273}
   m_Layer: 5
   m_Name: PurchaseFullVersion
   m_TagString: Untagged
@@ -3815,9 +3825,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 290266270}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e2979c3b1b6e4bde948da250a118df5, type: 3}
+  m_Script: {fileID: 11500000, guid: 36a5f511b0d8142cba0aeb92d0b264c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  productId: com.AviMarks.DesktopHelicopter.full_version
+  buttonType: 0
+  consumePurchase: 1
+  onPurchaseComplete:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 705023003}
+        m_MethodName: ChangeVersion_Full
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onPurchaseFailed:
+    m_PersistentCalls:
+      m_Calls: []
+  titleText: {fileID: 0}
+  descriptionText: {fileID: 0}
+  priceText: {fileID: 0}
 --- !u!114 &290266273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3860,18 +3893,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 290266274}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 290266272}
-        m_MethodName: PurchaseFullVersion
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &290266274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5658,6 +5680,84 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 395078831}
   m_CullTransparentMesh: 0
+--- !u!1 &397093957
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 397093960}
+  - component: {fileID: 397093959}
+  - component: {fileID: 397093958}
+  m_Layer: 5
+  m_Name: ThankYouText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &397093958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 397093957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.7647059, g: 0.39607844, b: 0.20392157, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 1b4021b3f145b43aaaf00bf1a3cb8b52, type: 3}
+    m_FontSize: 42
+    m_FontStyle: 2
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 45
+    m_Alignment: 1
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Thank you for supporting my work, hope you enjoy!
+--- !u!222 &397093959
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 397093957}
+  m_CullTransparentMesh: 0
+--- !u!224 &397093960
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 397093957}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.5624999, y: 0.5624999, z: 0.5624999}
+  m_Children: []
+  m_Father: {fileID: 187316230}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: -272, y: -468}
+  m_SizeDelta: {x: 730, y: 150}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &398765554
 GameObject:
   m_ObjectHideFlags: 0
@@ -6637,6 +6737,7 @@ GameObject:
   m_Component:
   - component: {fileID: 507183456}
   - component: {fileID: 507183459}
+  - component: {fileID: 507183460}
   - component: {fileID: 507183458}
   - component: {fileID: 507183457}
   m_Layer: 5
@@ -6746,6 +6847,30 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 507183455}
   m_CullTransparentMesh: 0
+--- !u!114 &507183460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 507183455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36a5f511b0d8142cba0aeb92d0b264c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  productId: com.AviMarks.DesktopHelicopter.FullAppVersion
+  buttonType: 1
+  consumePurchase: 1
+  onPurchaseComplete:
+    m_PersistentCalls:
+      m_Calls: []
+  onPurchaseFailed:
+    m_PersistentCalls:
+      m_Calls: []
+  titleText: {fileID: 0}
+  descriptionText: {fileID: 0}
+  priceText: {fileID: 0}
 --- !u!1 &520630605
 GameObject:
   m_ObjectHideFlags: 0
@@ -8819,7 +8944,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705022998}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8dace409c23b24241917cb2d2cb078b4, type: 3}
   m_Name: 
@@ -12314,6 +12439,84 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 998123401}
   m_CullTransparentMesh: 0
+--- !u!1 &1000675711
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1000675714}
+  - component: {fileID: 1000675713}
+  - component: {fileID: 1000675712}
+  m_Layer: 5
+  m_Name: ThankYouText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &1000675712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000675711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.7647059, g: 0.39607844, b: 0.20392157, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 1b4021b3f145b43aaaf00bf1a3cb8b52, type: 3}
+    m_FontSize: 42
+    m_FontStyle: 2
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 45
+    m_Alignment: 1
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Thank you for supporting my work, hope you enjoy!
+--- !u!222 &1000675713
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000675711}
+  m_CullTransparentMesh: 0
+--- !u!224 &1000675714
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000675711}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2083311143}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -1360}
+  m_SizeDelta: {x: 730, y: 150}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1002385905
 GameObject:
   m_ObjectHideFlags: 0
@@ -15638,9 +15841,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1261247817}
   - component: {fileID: 1261247820}
+  - component: {fileID: 1261247821}
   - component: {fileID: 1261247819}
   - component: {fileID: 1261247818}
-  - component: {fileID: 1261247821}
   m_Layer: 5
   m_Name: PurchaseFullVersion
   m_TagString: Untagged
@@ -15711,18 +15914,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1261247819}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1261247821}
-        m_MethodName: PurchaseFullVersion
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1261247819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15769,9 +15961,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 1261247816}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e2979c3b1b6e4bde948da250a118df5, type: 3}
+  m_Script: {fileID: 11500000, guid: 36a5f511b0d8142cba0aeb92d0b264c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  productId: com.AviMarks.DesktopHelicopter.full_version
+  buttonType: 0
+  consumePurchase: 1
+  onPurchaseComplete:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 705023003}
+        m_MethodName: ChangeVersion_Full
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onPurchaseFailed:
+    m_PersistentCalls:
+      m_Calls: []
+  titleText: {fileID: 0}
+  descriptionText: {fileID: 0}
+  priceText: {fileID: 0}
 --- !u!1 &1264452347
 GameObject:
   m_ObjectHideFlags: 0
@@ -27197,6 +27412,9 @@ MonoBehaviour:
     soundOffSprite: {fileID: 0}
     environmentDisabledSprite: {fileID: 0}
     devSettingsButton: {fileID: 0}
+    purchaseButton: {fileID: 0}
+    restoreButton: {fileID: 0}
+    thankyouText: {fileID: 0}
   landscape:
     panel: {fileID: 0}
     attachedModeButton: {fileID: 0}
@@ -27207,8 +27425,14 @@ MonoBehaviour:
     soundOffSprite: {fileID: 0}
     environmentDisabledSprite: {fileID: 0}
     devSettingsButton: {fileID: 0}
+    purchaseButton: {fileID: 0}
+    restoreButton: {fileID: 0}
+    thankyouText: {fileID: 0}
   areSettingsOpen: 0
   currentJoystick: {fileID: 0}
+  purchaseButton: []
+  restoreButton: []
+  thankyouText: []
 --- !u!114 &2075202343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27342,7 +27566,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2083311143
 RectTransform:
   m_ObjectHideFlags: 0
@@ -27367,6 +27591,7 @@ RectTransform:
   - {fileID: 507183456}
   - {fileID: 1261247817}
   - {fileID: 1402965519}
+  - {fileID: 1000675714}
   m_Father: {fileID: 146607631}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

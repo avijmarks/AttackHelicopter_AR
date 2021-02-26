@@ -9,9 +9,6 @@ public class SaveManager : MonoBehaviour
     string FullAppVersion_Key = "FullAppVersion";
 
 
-
-
-
      void Awake(){
         //singleton code :)
         if (instance == null){

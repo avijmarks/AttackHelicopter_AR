@@ -33,6 +33,10 @@ public class PlayerSettings : MonoBehaviour
         public Image soundOffSprite;
         public Image environmentDisabledSprite;
         public GameObject devSettingsButton;
+
+        public Button purchaseButton;
+        public Button restoreButton;
+        public Text thankyouText; 
     }
 
    
@@ -48,6 +52,13 @@ public class PlayerSettings : MonoBehaviour
     private FixedJoystick landscapeJoystick;
     private FixedJoystick portraitJoystick;
     public FixedJoystick currentJoystick;
+
+    [SerializeField]
+    Button[] purchaseButton = new Button[2];
+    [SerializeField]
+    Button[] restoreButton = new Button[2];
+    [SerializeField]
+    Text[] thankyouText = new Text[2]; 
 
     private void Awake()
     {
@@ -218,6 +229,18 @@ public class PlayerSettings : MonoBehaviour
         aRSession.Reset();
         PlaneObjectData.singleton.DestroyCurrentEnvironment();
         remoteHeliMove.ResetRemotePoint();
+    }
+
+    public void ChangeUIToPaidMode ()
+    {
+        portrait.purchaseButton.gameObject.SetActive(false);
+        landscape.purchaseButton.gameObject.SetActive(false);
+
+        portrait.restoreButton.gameObject.SetActive(false);
+        landscape.restoreButton.gameObject.SetActive(false);
+
+        portrait.thankyouText.gameObject.SetActive(true);
+        landscape.thankyouText.gameObject.SetActive(true);
     }
 
 }

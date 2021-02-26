@@ -15,8 +15,6 @@ public class GameManager : MonoBehaviour
 
     public GameObject controlModeTip;
     
-
-    
     void Awake()
     {
         //singleton code :)

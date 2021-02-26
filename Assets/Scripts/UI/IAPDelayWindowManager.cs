@@ -82,6 +82,8 @@ public class IAPDelayWindowManager : MonoBehaviour
         fullVersionButton.SetActive(false);
         UIOrientationManager.instance.OnSwitchedToLandscape -= SwitchToLandscapeLayout;
         UIOrientationManager.instance.OnSwitchedToPortrait -= SwitchToPortraitLayout;
+
+        PlayerSettings.instance.ChangeUIToPaidMode(); 
     }
 
     void StartCountdownCycle (){
