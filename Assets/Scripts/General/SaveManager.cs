@@ -71,5 +71,10 @@ public class SaveManager : MonoBehaviour
         PlayerPrefs.Save();
     }
 
+    public void ClearPlayerPrefs ()
+    {
+        PlayerPrefs.SetString(FullAppVersion_Key, "False");
+        PlayerPrefs.Save();
+    }
 
 }
